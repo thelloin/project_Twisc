@@ -4,7 +4,6 @@
  *  Created on: 18 nov 2014
  *      Author: eried975
  */
-#include <iostream>
 
 using namespace std;
 int main(int argc ,char* argv [])
@@ -14,6 +13,8 @@ int main(int argc ,char* argv [])
 
 	cout << "Hello world !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
 
+
+	/////
 	return 0;
 
 }
