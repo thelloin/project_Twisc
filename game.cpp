@@ -31,13 +31,13 @@ int main(int argc, char* argv[]) {
 
 	// create the window
 	SDL_Window* window = SDL_CreateWindow("SDL Test", SDL_WINDOWPOS_UNDEFINED,
-	SDL_WINDOWPOS_UNDEFINED, 320, 240, SDL_WINDOW_RESIZABLE);
+	SDL_WINDOWPOS_UNDEFINED, 1280, 960, SDL_WINDOW_RESIZABLE);
 	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
 
 	// make the scaled rendering look smoother
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 	// render at a virtual resolution then stretch to actual resolution
-	SDL_RenderSetLogicalSize(renderer, 640, 480);
+	SDL_RenderSetLogicalSize(renderer, 1280, 960);
 
 	Abstract_Gamestate* game = new Menu();
 	while (game->get_state() != game->Gamestate::Exit)

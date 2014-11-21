@@ -45,7 +45,7 @@ void Menu::initialize(SDL_Renderer* renderer) {
 	load_texture(menu_test, "textures/menu_header.png", renderer);
 }
 
-SDL_Texture* Menu::load_texture(SDL_Texture* & texture_to_load,
+void Menu::load_texture(SDL_Texture* & texture_to_load,
 		std::string path, SDL_Renderer* renderer) {
 	SDL_Surface* temp = IMG_Load(path.c_str());
 	texture_to_load = SDL_CreateTextureFromSurface(renderer, temp);

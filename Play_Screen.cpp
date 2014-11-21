@@ -45,7 +45,7 @@ void Play_Screen::initialize(SDL_Renderer* renderer) {
 	load_texture(play_test, "textures/play_header.png", renderer);
 }
 
-SDL_Texture* Play_Screen::load_texture(SDL_Texture* & texture_to_load,
+void Play_Screen::load_texture(SDL_Texture* & texture_to_load,
 		std::string path, SDL_Renderer* renderer) {
 	SDL_Surface* temp = IMG_Load(path.c_str());
 	texture_to_load = SDL_CreateTextureFromSurface(renderer, temp);
@@ -59,7 +59,7 @@ void Play_Screen::handle_input() {
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
 		case SDL_MOUSEBUTTONDOWN:
-			Currentstate = Gamestate::Playstate;
+			Currentstate = Gamestate::Exit;
 			break;
 		case SDL_MOUSEMOTION:
 			//player->setCircleCenter(event.motion.x, event.motion.y);

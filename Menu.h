@@ -24,7 +24,7 @@ protected:
 	void updateAll();
 	void drawAll(SDL_Renderer* renderer);
 
-	SDL_Texture* load_texture(SDL_Texture* & texture_to_load, std::string path, SDL_Renderer* renderer);
+	void load_texture(SDL_Texture* & texture_to_load, std::string path, SDL_Renderer* renderer);
 
 private:
 	SDL_Texture* menu_test;
