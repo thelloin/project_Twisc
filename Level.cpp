@@ -7,6 +7,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include <iostream>
+#include <fstream>
 #include <string>
 
 #include "Level.h"
@@ -21,18 +23,34 @@ Level::~Level() {
 	SDL_DestroyTexture(textures["ground"]);
 }
 
+void Level::load_from_file(int const& level)
+{
+	//Loads a level from a file line by line and adds it to the grounds vector.
+	std::map<std::string, char> objects{{"ground", '#'}};
+
+	std::ifstream file("levels/level1.txt");
+	std::string line;
+	int current_line{0};
+
+	while(getline(file, line))
+	{
+		for (unsigned int i{0}; i < line.length(); ++i)
+		{
+			if (line[i] == objects["ground"])
+			{
+				grounds.push_back(new Ground(50,50,(i*50),(current_line*50),textures["ground"]));
+			}
+		}
+		++current_line;
+	}
+}
 
 void Level::initialize_level(int level)
 {
 	SDL_Surface* temp = IMG_Load("textures/wall.png");
 	textures["ground"] = SDL_CreateTextureFromSurface(renderer, temp);
 
-	grounds.push_back(new Ground(temp->w,temp->h,100,350,textures["ground"]));
-	grounds.push_back(new Ground(50,50,100,300,textures["ground"]));
-	grounds.push_back(new Ground(50,50,500,350,textures["ground"]));
-	grounds.push_back(new Ground(50,50,500,300,textures["ground"]));
-	grounds.push_back(new Ground(50,50,500,250,textures["ground"]));
-
+	load_from_file(3);
 	SDL_FreeSurface(temp);
 
 }

@@ -22,6 +22,7 @@ public:
 	void initialize_level(int level);
 	void update_level();
 	void draw_level(SDL_Renderer* renderer);
+	void load_from_file(int const& level);
 
 private:
 	//Player player;
