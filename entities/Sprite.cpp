@@ -7,9 +7,20 @@
 
 #include "Sprite.h"
 
-Sprite::Sprite(int width, int height, int x_pos, int y_pos, SDL_Texture* in_texture) : width(width), height(height),
-	x_pos(x_pos) , y_pos(y_pos) , texture(in_texture) {}
+Sprite::Sprite(int width, int height, int x_pos, int y_pos, SDL_Texture* in_texture) : texture(in_texture)
+	{
+		obj_rect.w = width;
+		obj_rect.h = height;
+		obj_rect.x = x_pos;
+		obj_rect.y = y_pos;
+	}
 
 Sprite::~Sprite() {
-	// TODO Auto-generated destructor stub
+	// The texture is removed in level with SDL_DestroyTexture()
+	texture = nullptr;
+}
+
+void Sprite::draw_texture(SDL_Renderer* renderer)
+{
+	SDL_RenderCopy(renderer, texture, nullptr, &obj_rect);
 }

@@ -42,17 +42,10 @@ Abstract_Gamestate::Gamestate Play_Screen::run_screen(SDL_Renderer* renderer) {
 
 void Play_Screen::initialize(SDL_Renderer* renderer) {
 	//menu_test { nullptr };
-	load_texture(play_test, "textures/play_header.png", renderer);
+	level = new Level(renderer);
+	level->initialize_level(1);
 }
 
-void Play_Screen::load_texture(SDL_Texture* & texture_to_load,
-		std::string path, SDL_Renderer* renderer) {
-	SDL_Surface* temp = IMG_Load(path.c_str());
-	texture_to_load = SDL_CreateTextureFromSurface(renderer, temp);
-
-	SDL_FreeSurface(temp);
-
-}
 
 void Play_Screen::handle_input() {
 	SDL_Event event;
@@ -76,9 +69,6 @@ void Play_Screen::updateAll() {
 }
 
 void Play_Screen::drawAll(SDL_Renderer* renderer) {
+	level->draw_level(renderer);
 
-	SDL_RenderClear(renderer);
-	SDL_Rect r_test { 100, 100, 100, 100 };
-	SDL_RenderCopy(renderer, play_test, nullptr, &r_test);
-	SDL_RenderPresent(renderer);
 }

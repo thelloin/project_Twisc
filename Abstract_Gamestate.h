@@ -28,8 +28,6 @@ protected:
 	virtual void updateAll() = 0;
 	virtual void drawAll(SDL_Renderer* renderer) = 0;
 
-	virtual void load_texture(SDL_Texture* & texture_to_load, std::string path, SDL_Renderer* renderer) = 0;
-
 	Gamestate Currentstate{Gamestate::None};
 };
 

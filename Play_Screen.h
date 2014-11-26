@@ -8,8 +8,10 @@
 #ifndef PLAY_SCREEN_H_
 #define PLAY_SCREEN_H_
 
-#include "Abstract_Gamestate.h"
 #include <SDL2/SDL.h>
+
+#include "Abstract_Gamestate.h"
+#include "Level.h"
 
 class Play_Screen : public Abstract_Gamestate {
 public:
@@ -26,10 +28,10 @@ protected:
 	void updateAll();
 	void drawAll(SDL_Renderer* renderer);
 
-	void load_texture(SDL_Texture* & texture_to_load, std::string path, SDL_Renderer* renderer);
 
 private:
 	SDL_Texture* play_test;
+	Level* level;
 };
 
 #endif /* PLAY_SCREEN_H_ */

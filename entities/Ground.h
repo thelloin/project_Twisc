@@ -8,6 +8,8 @@
 #ifndef ENTITIES_GROUND_H_
 #define ENTITIES_GROUND_H_
 
+#include <SDL2/SDL.h>
+
 #include "Sprite.h"
 
 class Ground : public Sprite {

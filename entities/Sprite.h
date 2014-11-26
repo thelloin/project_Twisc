@@ -15,14 +15,10 @@ public:
 	Sprite(int width, int height, int x_pos, int y_pos, SDL_Texture* in_texture);
 	virtual ~Sprite();
 
-	//virtual SDL_Rect* get_collision_rect() = 0;
-	//virtual void draw_texture() = 0;
-	//virtual void set_pos(int x_pos, int y_pos);
-private:
-	const int width;
-	const int height;
-	int x_pos;
-	int y_pos;
+	virtual void draw_texture(SDL_Renderer* renderer);
+
+protected:
+	SDL_Rect obj_rect;
 
 	SDL_Texture* texture;
 };
