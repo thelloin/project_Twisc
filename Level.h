@@ -13,6 +13,7 @@
 #include <SDL2/SDL.h>
 
 #include "entities/Ground.h"
+#include "entities/Player.h"
 
 class Level {
 public:
@@ -24,12 +25,16 @@ public:
 	void draw_level(SDL_Renderer* renderer);
 	void load_from_file(int const& level);
 
+	Player*& get_player();
 private:
 	//Player player;
 	//vector<Monsters> monsters;
 	//vector<bullets> bullets;
 	SDL_Renderer* renderer;
+
 	std::vector<Ground*> grounds;
+	Player* player;
+
 	std::map<std::string, SDL_Texture*> textures;
 };
 
