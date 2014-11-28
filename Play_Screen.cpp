@@ -80,6 +80,9 @@ void Play_Screen::handle_input() {
 			case SDLK_d:
 				(level->get_player())->set_direction(Player::RIGHT);
 				break;
+			case SDLK_w:
+				(level->get_player())->set_grounded(false);
+				break;
 			}
 			break;
 		case SDL_KEYUP:
