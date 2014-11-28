@@ -8,34 +8,42 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
-#include "Play_Screen.h"
 
-Play_Screen::Play_Screen() {
+#include "Play_Screen.h"
+#include "entities/Player.h"
+
+Play_Screen::Play_Screen()
+{
 	// TODO Auto-generated constructor stub
 
 }
 
-Play_Screen::~Play_Screen() {
+Play_Screen::~Play_Screen()
+{
 	// TODO Auto-generated destructor stub
 }
 
-Abstract_Gamestate::Gamestate Play_Screen::run_screen(SDL_Renderer* renderer) {
+Abstract_Gamestate::Gamestate Play_Screen::run_screen(SDL_Renderer* renderer)
+{
 	Currentstate = Gamestate::Playstate;
 	Play_Screen::initialize(renderer);
+
+	const int ticksPerFrame = 1000 / 60;
+
 	while (Currentstate == Gamestate::Playstate) {
-		// T
+
 		Uint32 ticksAtLoopStart = SDL_GetTicks();
 
 		Play_Screen::handle_input();
-		//GameScreen::updateAll();
+		Play_Screen::updateAll();
 		Play_Screen::drawAll(renderer);
 
-		// T
-		//int time_to_wait = ticksPerFrame
-		//                            - (SDL_GetTicks() - ticksAtLoopStart);
-		//if (time_to_wait > 0) {
-		//	SDL_Delay(time_to_wait);
-		//}
+
+		int time_to_wait = ticksPerFrame - (SDL_GetTicks() - ticksAtLoopStart);
+		if (time_to_wait > 0)
+		{
+			SDL_Delay(time_to_wait);
+		}
 	}
 	return Currentstate;
 }
@@ -50,7 +58,10 @@ void Play_Screen::initialize(SDL_Renderer* renderer) {
 void Play_Screen::handle_input() {
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
-		switch (event.type) {
+		const Uint8* currentKeyStates = SDL_GetKeyboardState( NULL );
+
+		switch (event.type)
+		{
 		case SDL_MOUSEBUTTONDOWN:
 			Currentstate = Gamestate::Exit;
 			break;
@@ -60,12 +71,39 @@ void Play_Screen::handle_input() {
 		case SDL_QUIT:
 			Currentstate = Gamestate::Exit;
 			break;
+		case SDL_KEYDOWN:
+			switch (event.key.keysym.sym)
+			{
+			case SDLK_a:
+				(level->get_player())->set_direction(Player::LEFT);
+				break;
+			case SDLK_d:
+				(level->get_player())->set_direction(Player::RIGHT);
+				break;
+			}
+			break;
+		case SDL_KEYUP:
+			switch (event.key.keysym.sym)
+			{
+			case SDLK_a:
+				if (!currentKeyStates[ SDL_SCANCODE_D])
+				{
+					(level->get_player())->set_direction(Player::NONE);
+				}
+				break;
+			case SDLK_d:
+				if (!currentKeyStates[ SDL_SCANCODE_A])
+				{
+				(level->get_player())->set_direction(Player::NONE);
+				}
+				break;
+			}
 		}
 	}
 }
 
 void Play_Screen::updateAll() {
-
+	level->update_level();
 }
 
 void Play_Screen::drawAll(SDL_Renderer* renderer) {
