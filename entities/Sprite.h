@@ -17,7 +17,7 @@ public:
 
 	SDL_Rect& get_rect() {return obj_rect;}
 
-	virtual void draw_texture(SDL_Renderer* renderer);
+	virtual void draw_texture(SDL_Renderer* renderer, double camera_offset_x);
 
 protected:
 	SDL_Rect obj_rect;
