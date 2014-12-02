@@ -62,7 +62,6 @@ int main(int argc, char* argv[]) {
 			// do nothing
 			break;
 		}
-
 	}
 	/////
 	return 0;

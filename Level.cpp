@@ -45,7 +45,7 @@ void Level::load_from_file(int const& level)
 
 			if (line[i] == objects["player"])
 			{
-				player = new Player(50 ,50 , i*50, current_line*50,textures["player"]);
+				player = new Player(30 ,30 , i*30, current_line*30,textures["player"]);
 			}
 		}
 		++current_line;
@@ -73,9 +73,9 @@ void Level::draw_level(SDL_Renderer* renderer)
 
 	for (Ground* g : grounds)
 	{
-		g->draw_texture(renderer);
+		g->draw_texture(renderer, camera_speed);
 	}
-	player->draw_texture(renderer);
+	player->draw_texture(renderer, camera_speed);
 
 	SDL_RenderPresent(renderer);
 }
@@ -83,9 +83,16 @@ void Level::draw_level(SDL_Renderer* renderer)
 void Level::update_level()
 {
 	player->update_movement(grounds);
+
+	update_camera();
 }
 
 Player*& Level::get_player()
 {
 	return player;
+}
+
+void Level::update_camera()
+{
+	camera.x += -1;
 }

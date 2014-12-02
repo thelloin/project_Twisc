@@ -81,7 +81,7 @@ void Play_Screen::handle_input() {
 				(level->get_player())->set_direction(Player::RIGHT);
 				break;
 			case SDLK_w:
-				(level->get_player())->set_grounded(false);
+				(level->get_player())->jump();
 				break;
 			}
 			break;

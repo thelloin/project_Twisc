@@ -20,7 +20,8 @@ Sprite::~Sprite() {
 	texture = nullptr;
 }
 
-void Sprite::draw_texture(SDL_Renderer* renderer)
+void Sprite::draw_texture(SDL_Renderer* renderer, double camera_speed)
 {
+	obj_rect.x -= camera_speed;
 	SDL_RenderCopy(renderer, texture, nullptr, &obj_rect);
 }

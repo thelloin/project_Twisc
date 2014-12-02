@@ -17,9 +17,9 @@ Player::~Player() {
 
 void Player::update_movement(std::vector<Ground*> const& grounds) {
 
+	//If the character does not collide on move, move character.
 	switch (current_direction) {
 	case (LEFT):
-		std::cout << "Left" << std::endl;
 		if (!check_x_collision(grounds, -x_speed))
 		{
 			obj_rect.x -= x_speed;
@@ -35,36 +35,14 @@ void Player::update_movement(std::vector<Ground*> const& grounds) {
 		break;
 	}
 
-	/*if (grounded)
-	{
-	for (Ground* g: grounds)
-		{
-			SDL_Rect new_rect = obj_rect;
-			new_rect.y += y_speed;
-			if (check_y_bottom_collision(g,new_rect ))
-			{
-				grounded = false;
-			}
-		}
-	}*/
+	update_y_movement(grounds);
 
-	if (!grounded)
-	{
-		/*obj_rect.y += y_speed;
-		y_speed += gravity;
-		std::cout << y_speed << std::endl;
-		if (y_speed > 6 )
-		{
-			grounded = true;
-			y_speed = -6;
-		}*/
-		update_y_movement(grounds);
-
-	}
 }
 
 bool Player::check_x_collision(std::vector<Ground*> const& grounds, int pos_change)
 {
+	//Checks for collisions on the horizontal axis.
+
 	bool has_collided{false};
 
 	SDL_Rect new_pos = obj_rect;
@@ -94,16 +72,33 @@ bool Player::check_y_top_collision(Ground* const& ground, SDL_Rect new_pos)
 bool Player::check_y_bottom_collision(Ground* const& ground, SDL_Rect new_pos)
 {
 	return (new_pos.h + new_pos.y) > ground->get_rect().y
-			&& (new_pos.h + new_pos.y) < (ground->get_rect().y + ground->get_rect().h);
+			&& (new_pos.h + new_pos.y)
+			< (ground->get_rect().y + ground->get_rect().h);
 }
 
  void Player::update_y_movement(std::vector<Ground*> const& grounds)
  {
+	 //Updates the characters vertical speed(y_speed).
+
 	 bool has_collided_bottom{false};
 
 	 SDL_Rect new_pos = obj_rect;
-	 new_pos.y += y_speed;
 
+	 //If the character is grounded, he should always check for a
+	 //collision below just in case the character would move off a ledge.
+	 if (grounded)
+	 {
+		 new_pos.y += 1;
+	 }
+	 else
+	 {
+		 new_pos.y += y_speed;
+	 }
+
+	 //Checks for collision both above the character if he hits the ceiling and
+	 //below the character if he lands on any ground. If he collides into the ceiling we sets the y_speed to 0
+	 //If y_speed is high, the character will check for a collision far away and if so,
+	 //we places the character on the ground were it should collide
 	 for (Ground* ground: grounds)
 	 {
 		 bool x_inter = (new_pos.x < (ground->get_rect().w + ground->get_rect().x)
@@ -116,27 +111,33 @@ bool Player::check_y_bottom_collision(Ground* const& ground, SDL_Rect new_pos)
 		 {
 			 y_speed = 0;
 		 }
+
 		 if (x_inter && y_bottom_inter)
 		 {
 			 has_collided_bottom = true;
 			 grounded = true;
-			 y_speed = -6;
+			 y_speed = 0;
+			 obj_rect.y = ground->get_rect().y - obj_rect.h;
 			 break;
 		 }
 	 }
-	 std::cout << has_collided_bottom << std::endl;
+
+	 //If we did not collide we should fall.
 	 if (!has_collided_bottom)
 	 {
 		 obj_rect.y += y_speed;
 		 y_speed += GRAVITY;
+		 grounded = false;
 	 }
-
-
-	 std::cout << "hej" << std::endl;
  }
- //bool is_grounded();
 
-void Player::set_grounded(bool grounded)
+void Player::jump()
 {
-	this->grounded = grounded;
+	if (grounded == true)
+	{
+		grounded = false;
+		y_speed = DEFAULT_Y_SPEED;
+	}
 }
+
+
