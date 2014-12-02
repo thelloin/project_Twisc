@@ -83,6 +83,9 @@ void Play_Screen::handle_input() {
 			case SDLK_w:
 				(level->get_player())->jump();
 				break;
+			case SDLK_SPACE:
+				(level->get_player())->dash();
+				break;
 			}
 			break;
 		case SDL_KEYUP:
