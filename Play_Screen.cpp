@@ -12,15 +12,12 @@
 #include "Play_Screen.h"
 #include "entities/Player.h"
 
-Play_Screen::Play_Screen()
-{
-	// TODO Auto-generated constructor stub
 
-}
 
 Play_Screen::~Play_Screen()
 {
-	// TODO Auto-generated destructor stub
+	SDL_DestroyTexture(play_test);
+	delete level;
 }
 
 Abstract_Gamestate::Gamestate Play_Screen::run_screen(SDL_Renderer* renderer)
@@ -50,8 +47,9 @@ Abstract_Gamestate::Gamestate Play_Screen::run_screen(SDL_Renderer* renderer)
 
 void Play_Screen::initialize(SDL_Renderer* renderer) {
 	//menu_test { nullptr };
+	this->renderer = renderer;
 	level = new Level(renderer);
-	level->initialize_level(1);
+	level->initialize_level(level_to_load);
 }
 
 
@@ -108,11 +106,24 @@ void Play_Screen::handle_input() {
 	}
 }
 
-void Play_Screen::updateAll() {
+void Play_Screen::updateAll()
+{
 	level->update_level();
+
+	// Check if the player has died
+	if (level->get_player()->get_dead_status())
+	{
+		restart_level();
+	}
 }
 
 void Play_Screen::drawAll(SDL_Renderer* renderer) {
 	level->draw_level(renderer);
+}
 
+void Play_Screen::restart_level()
+{
+	delete level;
+	level_to_load = 2;
+	initialize(renderer);
 }

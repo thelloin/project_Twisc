@@ -14,11 +14,12 @@
 
 #include "entities/Ground.h"
 #include "entities/Player.h"
+#include "entities/Enemy.h"
 
 class Level {
 public:
-	Level(SDL_Renderer* renderer) : renderer(renderer), screen_width(640),
-		screen_height(480), camera{0,0, screen_width, screen_height} {}
+	Level(SDL_Renderer* renderer) : screen_width(640),
+		screen_height(480), renderer(renderer), camera{0,0, screen_width, screen_height} {}
 	virtual ~Level();
 
 	void initialize_level(int level);
@@ -34,7 +35,7 @@ private:
 	int screen_width;
 	int screen_height;
 	//Player player;
-	//vector<Monsters> monsters;
+	std::vector<Enemy*> enemies;
 	//vector<bullets> bullets;
 	SDL_Renderer* renderer;
 

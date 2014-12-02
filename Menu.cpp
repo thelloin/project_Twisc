@@ -17,6 +17,7 @@ Menu::Menu() {
 
 Menu::~Menu() {
 	// TODO Auto-generated destructor stub
+	SDL_DestroyTexture(menu_test);
 }
 
 Abstract_Gamestate::Gamestate Menu::run_screen(SDL_Renderer* renderer) {

@@ -15,7 +15,7 @@
 
 class Play_Screen : public Abstract_Gamestate {
 public:
-	Play_Screen();
+	Play_Screen() : level_to_load(1) {}
 	virtual ~Play_Screen();
 
 	//enum Gamestate{Menu, Playstate, Gameover, Exit, None};
@@ -32,6 +32,13 @@ protected:
 private:
 	SDL_Texture* play_test;
 	Level* level;
+	int level_to_load;
+
+	SDL_Renderer* renderer;
+
+	void restart_level();
+
+
 };
 
 #endif /* PLAY_SCREEN_H_ */

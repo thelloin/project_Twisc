@@ -4,9 +4,11 @@
  *  Created on: 28 nov 2014
  *      Author: eried975
  */
+#include <iostream>
 
 #include "Player.h"
-#include <iostream>
+#include "Enemy.h"
+
 void Player::set_direction(Direction dir)
 {
 	current_direction = dir;
@@ -35,26 +37,63 @@ void Player::update_movement(std::vector<Ground*> const& grounds) {
 		break;
 	}
 
-	update_y_movement(grounds);
-
 	// Updates the dash time counter if the player is dashing and
 	// stops dashing when dash timer reaches the const DASH_TIME
 	if (is_dashing)
 	{
-		if (dash_timer == DASH_TIME)
+		++dash_timer;
+		if (dash_timer >= DASH_TIME)
 		{
 			is_dashing = false;
 			x_speed = DEFAULT_X_SPEED;
 			dash_timer = 0;
 		}
-		++dash_timer;
+
+	}
+
+	update_y_movement(grounds);
+
+
+}
+
+void Player::handle_collisions(std::vector<Enemy*>& enemies)
+{
+	for (unsigned int i{0}; i < enemies.size(); ++i)
+	{
+		if (intersect(enemies[i], 0) && !is_dashing)
+		{
+			is_dead = true;
+		}
+		else if (intersect(enemies[i],0) && is_dashing)
+		{
+			enemies.erase(enemies.begin() + i);
+		}
+	}
+	for(Enemy* enemy: enemies)
+	{
+		if (intersect(enemy, 0) && !is_dashing)
+		{
+			is_dead = true;
+		}
+		else if (intersect(enemy,0) && is_dashing)
+		{
+
+			delete enemy;
+		}
 	}
 
 }
 
-void Player::handle_collisions(std::vector<Ground*> const& grounds)
+bool Player::intersect(Sprite* const& sprite, int pos_change) const
 {
+	SDL_Rect new_pos = obj_rect;
+	new_pos.x += pos_change;
 
+	bool x_inter = (new_pos.x < (sprite->get_rect().w + sprite->get_rect().x)
+			                  && (new_pos.w + new_pos.x) > sprite->get_rect().x);
+	bool y_inter = (new_pos.y < (sprite->get_rect().h + sprite->get_rect().y)
+			                  && (new_pos.h + new_pos.y) > sprite->get_rect().y);
+	return x_inter && y_inter;
 }
 
 bool Player::check_x_collision(std::vector<Ground*> const& grounds, int pos_change)
@@ -63,16 +102,9 @@ bool Player::check_x_collision(std::vector<Ground*> const& grounds, int pos_chan
 
 	bool has_collided{false};
 
-	SDL_Rect new_pos = obj_rect;
-	new_pos.x += pos_change;
-
 	for (Ground* ground: grounds)
 	{
-		bool x_inter = (new_pos.x < (ground->get_rect().w + ground->get_rect().x)
-		                  && (new_pos.w + new_pos.x) > ground->get_rect().x);
-		bool y_inter = (new_pos.y < (ground->get_rect().h + ground->get_rect().y)
-		                  && (new_pos.h + new_pos.y) > ground->get_rect().y);
-		if (x_inter && y_inter)
+		if ( intersect(ground, pos_change) )
 		{
 			has_collided = true;
 			break;
@@ -82,7 +114,8 @@ bool Player::check_x_collision(std::vector<Ground*> const& grounds, int pos_chan
 	// Check if we have collided with an object and if the character is dashing
 	if (has_collided && is_dashing)
 	{
-
+		std::cout << "You ded" << std::endl;
+		is_dead = true;
 	}
 	return has_collided;
 }
