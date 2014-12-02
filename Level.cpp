@@ -45,7 +45,7 @@ void Level::load_from_file(int const& level)
 
 			if (line[i] == objects["player"])
 			{
-				player = new Player(30 ,30 , i*30, current_line*30,textures["player"]);
+				player = new Player(30 ,30 , i*50, current_line*50,textures["player"]);
 			}
 		}
 		++current_line;
@@ -94,5 +94,5 @@ Player*& Level::get_player()
 
 void Level::update_camera()
 {
-	camera.x += -1;
+	camera.x -= camera_speed;
 }

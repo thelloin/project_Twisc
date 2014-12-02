@@ -37,11 +37,29 @@ void Player::update_movement(std::vector<Ground*> const& grounds) {
 
 	update_y_movement(grounds);
 
+	// Updates the dash time counter if the player is dashing and
+	// stops dashing when dash timer reaches the const DASH_TIME
+	if (is_dashing)
+	{
+		if (dash_timer == DASH_TIME)
+		{
+			is_dashing = false;
+			x_speed = DEFAULT_X_SPEED;
+			dash_timer = 0;
+		}
+		++dash_timer;
+	}
+
+}
+
+void Player::handle_collisions(std::vector<Ground*> const& grounds)
+{
+
 }
 
 bool Player::check_x_collision(std::vector<Ground*> const& grounds, int pos_change)
 {
-	//Checks for collisions on the horizontal axis.
+	//Checks for collisions with Grounds on the horizontal axis when moving.
 
 	bool has_collided{false};
 
@@ -59,6 +77,12 @@ bool Player::check_x_collision(std::vector<Ground*> const& grounds, int pos_chan
 			has_collided = true;
 			break;
 		}
+	}
+
+	// Check if we have collided with an object and if the character is dashing
+	if (has_collided && is_dashing)
+	{
+
 	}
 	return has_collided;
 }
@@ -137,6 +161,16 @@ void Player::jump()
 	{
 		grounded = false;
 		y_speed = DEFAULT_Y_SPEED;
+	}
+}
+
+// Sets the dash-mode to true and changes the x_speed
+void Player::dash()
+{
+	if (grounded && !is_dashing && current_direction != NONE)
+	{
+		x_speed = DASH_SPEED;
+		is_dashing = true;
 	}
 }
 
