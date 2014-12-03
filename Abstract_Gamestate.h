@@ -18,15 +18,15 @@ public:
 
 	enum Gamestate{Menu, Playstate, Gameover, Exit, None};
 
-	virtual Gamestate run_screen(SDL_Renderer* renderer) = 0;
+	virtual Gamestate run_screen(SDL_Renderer& renderer) = 0;
 
 	Gamestate get_state() { return Currentstate; }
 
 protected:
-	virtual void initialize(SDL_Renderer* renderer) = 0;
+	virtual void initialize(SDL_Renderer& renderer) = 0;
 	virtual void handle_input() = 0;
 	virtual void updateAll() = 0;
-	virtual void drawAll(SDL_Renderer* renderer) = 0;
+	virtual void drawAll(SDL_Renderer& renderer) = 0;
 
 	Gamestate Currentstate{Gamestate::None};
 };

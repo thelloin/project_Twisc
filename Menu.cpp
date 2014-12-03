@@ -17,10 +17,10 @@ Menu::Menu() {
 
 Menu::~Menu() {
 	// TODO Auto-generated destructor stub
-	SDL_DestroyTexture(menu_test);
+	//SDL_DestroyTexture(menu_test);
 }
 
-Abstract_Gamestate::Gamestate Menu::run_screen(SDL_Renderer* renderer) {
+Abstract_Gamestate::Gamestate Menu::run_screen(SDL_Renderer& renderer) {
 	Currentstate = Gamestate::Menu;
 	Menu::initialize(renderer);
 	while (Currentstate == Gamestate::Menu) {
@@ -41,15 +41,15 @@ Abstract_Gamestate::Gamestate Menu::run_screen(SDL_Renderer* renderer) {
 	return Currentstate;
 }
 
-void Menu::initialize(SDL_Renderer* renderer) {
+void Menu::initialize(SDL_Renderer& renderer) {
 	//menu_test { nullptr };
-	load_texture(menu_test, "textures/menu_header.png", renderer);
+	//load_texture(menu_test, "textures/menu_header.png", renderer);
 }
 
 void Menu::load_texture(SDL_Texture* & texture_to_load,
-		std::string path, SDL_Renderer* renderer) {
+		std::string path, SDL_Renderer& renderer) {
 	SDL_Surface* temp = IMG_Load(path.c_str());
-	texture_to_load = SDL_CreateTextureFromSurface(renderer, temp);
+	texture_to_load = SDL_CreateTextureFromSurface(&renderer, temp);
 
 	SDL_FreeSurface(temp);
 
@@ -76,10 +76,10 @@ void Menu::updateAll() {
 
 }
 
-void Menu::drawAll(SDL_Renderer* renderer) {
+void Menu::drawAll(SDL_Renderer& renderer) {
 
-	SDL_RenderClear(renderer);
+	SDL_RenderClear(&renderer);
 	SDL_Rect r_test { 100, 100, 100, 100 };
-	SDL_RenderCopy(renderer, menu_test, nullptr, &r_test);
-	SDL_RenderPresent(renderer);
+	//SDL_RenderCopy(&renderer, menu_test, nullptr, &r_test);
+	SDL_RenderPresent(&renderer);
 }

@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
 	Abstract_Gamestate* game = new Menu();
 	while (game->get_state() != game->Gamestate::Exit)
 	{
-		game->run_screen(renderer);
+		game->run_screen(*renderer);
 		switch (game->get_state())
 		{
 		case game->Gamestate::Exit:
@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
 			break;
 		case game->Gamestate::Playstate:
 			delete game;
-			game = new Play_Screen();
+			game = new Play_Screen(*renderer);
 			break;
 		default:
 			// do nothing

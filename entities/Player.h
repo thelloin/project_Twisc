@@ -18,7 +18,7 @@
 class Player : public Sprite
 {
 public:
-	Player(int width, int height, int x_pos, int y_pos, SDL_Texture* in_texture) :
+	Player(int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture) :
 			Sprite(width, height, x_pos, y_pos,in_texture),
 			GRAVITY{0.2}, DEFAULT_Y_SPEED(-6), DEFAULT_X_SPEED(3), grounded(true), is_dashing(false),
 			DASH_TIME(5), dash_timer(0), DASH_SPEED(20 ), y_speed(0),

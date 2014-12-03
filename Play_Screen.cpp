@@ -16,11 +16,11 @@
 
 Play_Screen::~Play_Screen()
 {
-	SDL_DestroyTexture(play_test);
+
 	delete level;
 }
 
-Abstract_Gamestate::Gamestate Play_Screen::run_screen(SDL_Renderer* renderer)
+Abstract_Gamestate::Gamestate Play_Screen::run_screen(SDL_Renderer& renderer)
 {
 	Currentstate = Gamestate::Playstate;
 	Play_Screen::initialize(renderer);
@@ -45,9 +45,9 @@ Abstract_Gamestate::Gamestate Play_Screen::run_screen(SDL_Renderer* renderer)
 	return Currentstate;
 }
 
-void Play_Screen::initialize(SDL_Renderer* renderer) {
+void Play_Screen::initialize(SDL_Renderer& renderer) {
 	//menu_test { nullptr };
-	this->renderer = renderer;
+	//this->renderer = renderer;
 	level = new Level(renderer);
 	level->initialize_level(level_to_load);
 }
@@ -117,7 +117,7 @@ void Play_Screen::updateAll()
 	}
 }
 
-void Play_Screen::drawAll(SDL_Renderer* renderer) {
+void Play_Screen::drawAll(SDL_Renderer& renderer) {
 	level->draw_level(renderer);
 }
 

@@ -77,7 +77,6 @@ void Player::handle_collisions(std::vector<Enemy*>& enemies)
 		}
 		else if (intersect(enemy,0) && is_dashing)
 		{
-
 			delete enemy;
 		}
 	}
@@ -93,6 +92,7 @@ bool Player::intersect(Sprite* const& sprite, int pos_change) const
 			                  && (new_pos.w + new_pos.x) > sprite->get_rect().x);
 	bool y_inter = (new_pos.y < (sprite->get_rect().h + sprite->get_rect().y)
 			                  && (new_pos.h + new_pos.y) > sprite->get_rect().y);
+
 	return x_inter && y_inter;
 }
 

@@ -13,8 +13,8 @@
 class Bullet : public Enemy
 {
 public:
-	Bullet(int width, int height, int x_pos, int y_pos, SDL_Texture* in_texture) :
-						Enemy(width, height, x_pos, y_pos,in_texture), BULLET_SPEED(2) {}
+	Bullet(int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture) :
+						Enemy(width, height, x_pos, y_pos,in_texture), BULLET_SPEED(-2) {}
 	virtual ~Bullet();
 
 	void update_movement();

@@ -13,11 +13,13 @@
 class Enemy : public Sprite
 {
 public:
-	Enemy(int width, int height, int x_pos, int y_pos, SDL_Texture* in_texture) :
+	Enemy(int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture) :
 				Sprite(width, height, x_pos, y_pos,in_texture) {}
 	virtual ~Enemy();
 
 	virtual void update_movement() = 0;
+
+
 };
 
 #endif /* ENTITIES_ENEMY_H_ */
