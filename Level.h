@@ -35,10 +35,8 @@ public:
 private:
 	int screen_width;
 	int screen_height;
-	//Player player;
+
 	std::vector<Enemy*> enemies;
-	std::vector<Bullet*> bullets;
-	//vector<bullets> bullets;
 	SDL_Renderer& renderer;
 
 	SDL_Rect camera;
@@ -46,7 +44,7 @@ private:
 	Player* player;
 	std::map<std::string, SDL_Texture*> textures;
 
-	const double camera_speed {1};
+	const double CAMERA_SPEED {1};
 	double camera_counter{0};
 };
 

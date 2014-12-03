@@ -17,9 +17,9 @@
 class Shooting_Enemy : public Enemy {
 public:
 	Shooting_Enemy(int width, int height, int x_pos, int y_pos,
-			SDL_Texture& in_texture, std::vector<Bullet*> & bullets, SDL_Texture& bullet_texture) :
+			SDL_Texture& in_texture, std::vector<Enemy*> & enemies, SDL_Texture& bullet_texture) :
 					Enemy(width, height, x_pos, y_pos,in_texture),
-					SHOOT_COOLDOWN(6), cooldown_timer(0), bullets(bullets), bullet_texture(bullet_texture) {}
+					SHOOT_COOLDOWN(180), cooldown_timer(0), enemies(enemies), bullet_texture(bullet_texture) {}
 	virtual ~Shooting_Enemy();
 
 	void update_movement();
@@ -30,7 +30,7 @@ public:
 private:
 	const int SHOOT_COOLDOWN;
 	int cooldown_timer;
-	std::vector<Bullet*>& bullets;
+	std::vector<Enemy*>& enemies;
 	SDL_Texture& bullet_texture;
 
 

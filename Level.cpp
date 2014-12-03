@@ -16,6 +16,8 @@
 #include "entities/Ground.h"
 #include "entities/Player.h"
 #include "entities/Shooting_Enemy.h"
+#include "entities/Wall_Of_Death.h"
+#include "entities/Lava.h"
 
 /*Level::Level() {
 	// TODO Auto-generated constructor stub
@@ -31,15 +33,15 @@ Level::~Level() {
 	{
 		delete g;
 	}
-	std::cout << "hej" << std::endl;
 
 
 }
 
 void Level::load_from_file(int const& level)
 {
-	//Loads a level from a file line by line and adds it to the grounds vector.
-	std::map<std::string, char> objects{{"ground", '#'}, {"player", 'p'}, {"shooting_enemy", 's'}};
+	//Loads a level from a file line by line and adds it to the
+	//different vectors that contains the objects in the world
+	std::map<std::string, char> objects{{"ground", '#'}, {"player", 'p'}, {"shooting_enemy", 's'}, {"lava", 'l'}};
 
 	std::string level_str = "levels/level" + std::to_string(level) + ".txt";
 	std::cout << level_str << std::endl;
@@ -53,18 +55,22 @@ void Level::load_from_file(int const& level)
 		{
 			if (line[i] == objects["ground"])
 			{
-				grounds.push_back(new Ground(50,50,(i*50),(current_line*50),*textures["ground"]));
+				grounds.push_back(new Ground(80,80,(i*80),(current_line*80),*textures["ground"]));
 			}
 
 			if (line[i] == objects["player"])
 			{
-				player = new Player(30 ,30 , i*50, current_line*50, *textures["player"]);
+				player = new Player(20 ,50 , i*80, current_line*80, *textures["player"]);
 			}
 
 			if (line[i] == objects["shooting_enemy"])
 			{
-				enemies.push_back(new Shooting_Enemy(50,50,(i*50),(current_line*50),
-						*textures["shooting_enemy"], bullets, *textures["bullet"]));
+				enemies.push_back(new Shooting_Enemy(80,80,(i*80),(current_line*80),
+						*textures["shooting_enemy"], enemies, *textures["bullet"]));
+			}
+			if (line[i] == objects["lava"])
+			{
+				enemies.push_back(new Lava(80,80,(i*80),(current_line*80), *textures["lava"]));
 			}
 		}
 		++current_line;
@@ -85,6 +91,15 @@ void Level::initialize_level(int level)
 	temp = IMG_Load("textures/bullet.png");
 	textures["bullet"] = SDL_CreateTextureFromSurface(&renderer, temp);
 
+	temp = IMG_Load("textures/lava.png");
+	textures["lava"] = SDL_CreateTextureFromSurface(&renderer, temp);
+
+	// Add the wall to the level
+	temp = IMG_Load("textures/wall_of_death.png");
+	textures["wall_of_death"] = SDL_CreateTextureFromSurface(&renderer,temp);
+	enemies.push_back(new Wall_Of_Death(500,800,-400,0,
+							*textures["wall_of_death"], CAMERA_SPEED));
+
 	load_from_file(level);
 	SDL_FreeSurface(temp);
 
@@ -98,18 +113,15 @@ void Level::draw_level(SDL_Renderer& renderer)
 
 	for (Ground* g : grounds)
 	{
-		g->draw_texture(&renderer, camera_speed);
+		g->draw_texture(&renderer, CAMERA_SPEED, camera.y);
 	}
 
 	for (Enemy* e : enemies)
 	{
-		e->draw_texture(&renderer, camera_speed);
+		e->draw_texture(&renderer, CAMERA_SPEED, camera.y);
 	}
-	for (Bullet* b : bullets)
-	{
-		b->draw_texture(&renderer, camera_speed);
-	}
-	player->draw_texture(&renderer, camera_speed);
+
+	player->draw_texture(&renderer, CAMERA_SPEED, camera.y);
 
 	SDL_RenderPresent(&renderer);
 }
@@ -120,14 +132,11 @@ void Level::update_level()
 
 	player->update_movement(grounds);
 
-	for (Enemy* enemy: enemies)
+	for (unsigned int i{0}; i < enemies.size(); ++i)
 	{
-		enemy->update_movement();
+		enemies[i]->update_movement();
 	}
-	for (Bullet* bullet: bullets)
-	{
-		bullet->update_movement();
-	}
+
 
 	update_camera();
 
@@ -141,5 +150,6 @@ Player*& Level::get_player()
 
 void Level::update_camera()
 {
-	camera.x -= camera_speed;
+	camera.x -= CAMERA_SPEED;
+	camera.y = player->get_rect().y - 240;
 }

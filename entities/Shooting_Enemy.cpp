@@ -22,10 +22,9 @@ void Shooting_Enemy::update_movement()
 
 void Shooting_Enemy::shoot()
 {
-	//std::cout << enemies[0]->get_rect().w << " hej" << std::endl;
 	if (cooldown_timer >= SHOOT_COOLDOWN)
 	{
-		bullets.push_back(new Bullet(10, 10, obj_rect.x, (obj_rect.y + obj_rect.w/2), bullet_texture));
+		enemies.push_back(new Bullet(10, 10, obj_rect.x, (obj_rect.y + obj_rect.w/2), bullet_texture));
 		cooldown_timer = 0;
 	}
 	++cooldown_timer;

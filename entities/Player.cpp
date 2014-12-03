@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include "Player.h"
+#include "Shooting_Enemy.h"
 #include "Enemy.h"
 
 void Player::set_direction(Direction dir)
@@ -24,12 +25,14 @@ void Player::update_movement(std::vector<Ground*> const& grounds) {
 	case (LEFT):
 		if (!check_x_collision(grounds, -x_speed))
 		{
+
 			obj_rect.x -= x_speed;
 		}
 		break;
 	case (RIGHT):
-		if (!check_x_collision(grounds, x_speed))
+		if (!check_x_collision(grounds, x_speed) && obj_rect.x < 590)
 		{
+			std::cout << obj_rect.x << std::endl;
 			obj_rect.x += x_speed;
 		}
 		break;
@@ -58,28 +61,45 @@ void Player::update_movement(std::vector<Ground*> const& grounds) {
 
 void Player::handle_collisions(std::vector<Enemy*>& enemies)
 {
+	// Check if there is a collision with the character and all enemies and bullets
 	for (unsigned int i{0}; i < enemies.size(); ++i)
 	{
-		if (intersect(enemies[i], 0) && !is_dashing)
+		// Try to cast the enemy to a Shooting_Enemy
+		Shooting_Enemy* shooting_enemy = dynamic_cast<Shooting_Enemy*>(enemies[i]);
+		Bullet* bullet = dynamic_cast<Bullet*>(enemies[i]);
+		if (shooting_enemy != nullptr)
 		{
-			is_dead = true;
+			if (intersect(shooting_enemy, 0) && !is_dashing)
+			{
+				is_dead = true;
+			}
+			else if (intersect(shooting_enemy,0) && is_dashing)
+			{
+				enemies.erase(enemies.begin() + i);
+			}
 		}
-		else if (intersect(enemies[i],0) && is_dashing)
+		else if (bullet != nullptr)
 		{
-			enemies.erase(enemies.begin() + i);
+			if (intersect(bullet, 0) && !is_dashing)
+			{
+				is_dead = true;
+			}
+			else if (intersect(bullet,0) && is_dashing)
+			{
+				enemies.erase(enemies.begin() + i);
+			}
 		}
+		// The enemy object is a bullet or the wall of death
+		else
+		{
+			if (intersect(enemies[i], 0))
+			{
+				is_dead = true;
+			}
+		}
+
 	}
-	for(Enemy* enemy: enemies)
-	{
-		if (intersect(enemy, 0) && !is_dashing)
-		{
-			is_dead = true;
-		}
-		else if (intersect(enemy,0) && is_dashing)
-		{
-			delete enemy;
-		}
-	}
+
 
 }
 
@@ -145,6 +165,7 @@ bool Player::check_y_bottom_collision(Ground* const& ground, SDL_Rect new_pos)
 	 //collision below just in case the character would move off a ledge.
 	 if (grounded)
 	 {
+
 		 new_pos.y += 1;
 	 }
 	 else
@@ -173,6 +194,7 @@ bool Player::check_y_bottom_collision(Ground* const& ground, SDL_Rect new_pos)
 		 {
 			 has_collided_bottom = true;
 			 grounded = true;
+			 can_dash = true;
 			 y_speed = 0;
 			 obj_rect.y = ground->get_rect().y - obj_rect.h;
 			 break;
@@ -200,10 +222,15 @@ void Player::jump()
 // Sets the dash-mode to true and changes the x_speed
 void Player::dash()
 {
-	if (grounded && !is_dashing && current_direction != NONE)
+	if (can_dash && !is_dashing && current_direction != NONE)
 	{
 		x_speed = DASH_SPEED;
 		is_dashing = true;
+		if (!grounded)
+		{
+			can_dash = false;
+		}
+
 	}
 }
 

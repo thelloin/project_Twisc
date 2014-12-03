@@ -6,6 +6,7 @@
  */
 
 #include "Sprite.h"
+#include "Player.h"
 
 Sprite::Sprite(int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture) : texture(in_texture)
 	{
@@ -20,8 +21,10 @@ Sprite::~Sprite() {
 	//texture = nullptr;
 }
 
-void Sprite::draw_texture(SDL_Renderer* renderer, double camera_speed)
+void Sprite::draw_texture(SDL_Renderer* renderer, double camera_speed, int camera_y_pos)
 {
+	obj_rect.y = (obj_rect.y - camera_y_pos);
 	obj_rect.x -= camera_speed;
+
 	SDL_RenderCopy(renderer, &texture, nullptr, &obj_rect);
 }

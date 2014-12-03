@@ -14,14 +14,15 @@
 #include "Sprite.h"
 #include "Ground.h"
 #include "Enemy.h"
+#include "Bullet.h"
 
 class Player : public Sprite
 {
 public:
 	Player(int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture) :
 			Sprite(width, height, x_pos, y_pos,in_texture),
-			GRAVITY{0.2}, DEFAULT_Y_SPEED(-6), DEFAULT_X_SPEED(3), grounded(true), is_dashing(false),
-			DASH_TIME(5), dash_timer(0), DASH_SPEED(20 ), y_speed(0),
+			GRAVITY{0.25}, DEFAULT_Y_SPEED(-9), DEFAULT_X_SPEED(3), grounded(true), is_dashing(false),
+			can_dash(true), DASH_TIME(5), dash_timer(0), DASH_SPEED(20 ), y_speed(0),
 			x_speed(DEFAULT_X_SPEED), current_direction(NONE) {}
 	virtual ~Player();
 
@@ -45,6 +46,7 @@ public:
 
 	bool get_dead_status() { return is_dead; }
 
+
 private:
 	const double GRAVITY;
 	const int DEFAULT_Y_SPEED;
@@ -53,6 +55,7 @@ private:
 	bool grounded;
 
 	bool is_dashing;
+	bool can_dash;
 	const int DASH_TIME;
 	int dash_timer;
 	const int DASH_SPEED;

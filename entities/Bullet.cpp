@@ -14,7 +14,6 @@ Bullet::~Bullet() {
 
 void Bullet::update_movement()
 {
-	std::cout << get_rect().w << std::endl;
 	obj_rect.x += BULLET_SPEED;
 
 }
