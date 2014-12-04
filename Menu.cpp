@@ -41,13 +41,15 @@ Abstract_Gamestate::Gamestate Menu::run_screen(SDL_Renderer& renderer) {
 	return Currentstate;
 }
 
-void Menu::initialize(SDL_Renderer& renderer) {
+void Menu::initialize(SDL_Renderer& renderer)
+{
 	//menu_test { nullptr };
 	//load_texture(menu_test, "textures/menu_header.png", renderer);
 }
 
 void Menu::load_texture(SDL_Texture* & texture_to_load,
-		std::string path, SDL_Renderer& renderer) {
+		std::string path, SDL_Renderer& renderer)
+{
 	SDL_Surface* temp = IMG_Load(path.c_str());
 	texture_to_load = SDL_CreateTextureFromSurface(&renderer, temp);
 
@@ -55,7 +57,8 @@ void Menu::load_texture(SDL_Texture* & texture_to_load,
 
 }
 
-void Menu::handle_input() {
+void Menu::handle_input()
+{
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {

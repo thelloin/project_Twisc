@@ -18,6 +18,7 @@
 #include "entities/Shooting_Enemy.h"
 #include "entities/Wall_Of_Death.h"
 #include "entities/Lava.h"
+#include "entities/Enemy.h"
 
 /*Level::Level() {
 	// TODO Auto-generated constructor stub
@@ -27,11 +28,21 @@
 Level::~Level() {
 	SDL_DestroyTexture(textures["ground"]);
 	SDL_DestroyTexture(textures["player"]);
+	SDL_DestroyTexture(textures["bullet"]);
+	SDL_DestroyTexture(textures["lava"]);
+	SDL_DestroyTexture(textures["wall_of_death"]);
+
 
 	delete player;
-	for (Ground* g: grounds)
+
+	for (unsigned int i{0}; i < grounds.size(); i++)
 	{
-		delete g;
+		delete grounds[i];
+	}
+	for (int i{0}; i < enemies.size(); i++)
+	{
+		std::cout << "borttagen" << std::endl;
+		delete enemies[i];
 	}
 
 
@@ -81,18 +92,23 @@ void Level::initialize_level(int level)
 {
 	SDL_Surface* temp = IMG_Load("textures/wall.png");
 	textures["ground"] = SDL_CreateTextureFromSurface(&renderer, temp);
+	SDL_FreeSurface(temp);
 
 	temp = IMG_Load("textures/player.png");
 	textures["player"] = SDL_CreateTextureFromSurface(&renderer, temp);
+	SDL_FreeSurface(temp);
 
 	temp = IMG_Load("textures/shooting_enemy.png");
 	textures["shooting_enemy"] = SDL_CreateTextureFromSurface(&renderer, temp);
+	SDL_FreeSurface(temp);
 
 	temp = IMG_Load("textures/bullet.png");
 	textures["bullet"] = SDL_CreateTextureFromSurface(&renderer, temp);
+	SDL_FreeSurface(temp);
 
 	temp = IMG_Load("textures/lava.png");
 	textures["lava"] = SDL_CreateTextureFromSurface(&renderer, temp);
+	SDL_FreeSurface(temp);
 
 	// Add the wall to the level
 	temp = IMG_Load("textures/wall_of_death.png");
@@ -111,17 +127,17 @@ void Level::draw_level(SDL_Renderer& renderer)
 	SDL_SetRenderDrawColor(&renderer, 183, 7, 61, 255);
 	SDL_RenderClear(&renderer);
 
-	for (Ground* g : grounds)
+	for (Ground*& g : grounds)
 	{
-		g->draw_texture(&renderer, CAMERA_SPEED, camera.y);
+		g->draw_texture(renderer, CAMERA_SPEED, camera.y);
 	}
 
-	for (Enemy* e : enemies)
+	for (Enemy*& e : enemies)
 	{
-		e->draw_texture(&renderer, CAMERA_SPEED, camera.y);
+		e->draw_texture(renderer, CAMERA_SPEED, camera.y);
 	}
 
-	player->draw_texture(&renderer, CAMERA_SPEED, camera.y);
+	player->draw_texture(renderer, CAMERA_SPEED, camera.y);
 
 	SDL_RenderPresent(&renderer);
 }

@@ -32,7 +32,6 @@ void Player::update_movement(std::vector<Ground*> const& grounds) {
 	case (RIGHT):
 		if (!check_x_collision(grounds, x_speed) && obj_rect.x < 590)
 		{
-			std::cout << obj_rect.x << std::endl;
 			obj_rect.x += x_speed;
 		}
 		break;
@@ -75,6 +74,7 @@ void Player::handle_collisions(std::vector<Enemy*>& enemies)
 			}
 			else if (intersect(shooting_enemy,0) && is_dashing)
 			{
+				delete enemies[i];
 				enemies.erase(enemies.begin() + i);
 			}
 		}
@@ -86,6 +86,7 @@ void Player::handle_collisions(std::vector<Enemy*>& enemies)
 			}
 			else if (intersect(bullet,0) && is_dashing)
 			{
+				delete enemies[i];
 				enemies.erase(enemies.begin() + i);
 			}
 		}

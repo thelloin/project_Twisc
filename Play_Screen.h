@@ -18,8 +18,6 @@ public:
 	Play_Screen(SDL_Renderer& renderer) : level_to_load(1), renderer(renderer) {}
 	virtual ~Play_Screen();
 
-	//enum Gamestate{Menu, Playstate, Gameover, Exit, None};
-
 	Abstract_Gamestate::Gamestate run_screen(SDL_Renderer& renderer);
 
 protected:

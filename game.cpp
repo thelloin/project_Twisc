@@ -67,7 +67,9 @@ int main(int argc, char* argv[]) {
 	//delete game;
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
-
+	game = nullptr;
+	renderer = nullptr;
+	window = nullptr;
 	SDL_Quit();
 	/////
 	return 0;
