@@ -58,7 +58,7 @@ void Player::update_movement(std::vector<Ground*> const& grounds) {
 
 }
 
-void Player::handle_collisions(std::vector<Enemy*>& enemies)
+void Player::handle_collisions(std::vector<Enemy*>& enemies, Button* const& button)
 {
 	// Check if there is a collision with the character and all enemies and bullets
 	for (unsigned int i{0}; i < enemies.size(); ++i)
@@ -233,6 +233,49 @@ void Player::dash()
 		}
 
 	}
+}
+
+bool Player::button_pushed(Button* const& button)
+{
+	return intersect(button, 0);
+}
+
+void Player::draw_texture(SDL_Renderer& renderer, double camera_speed, int camera_y_pos)
+{
+	obj_rect.y = (obj_rect.y - camera_y_pos);
+	obj_rect.x -= camera_speed;
+	update_animation();
+
+	if (current_direction == RIGHT)
+	{
+		SDL_RenderCopy(&renderer, &texture, &frame_rect, &obj_rect);
+	}
+	if (current_direction == LEFT)
+	{
+		SDL_RenderCopyEx(&renderer, &texture, &frame_rect, &obj_rect, 0, nullptr, SDL_FLIP_HORIZONTAL);
+	}
+	if (current_direction == NONE)
+	{
+		SDL_RenderCopy(&renderer, &texture, &frame_rect, &obj_rect);
+	}
+
+}
+
+void Player::update_animation()
+{
+	if (animation_counter == animation_fps)
+	{
+		if (frame_rect.x == 0)
+		{
+			frame_rect.x += frame_length;
+		}
+		else
+		{
+			frame_rect.x = 0;
+		}
+		animation_counter = 0;
+	}
+	++animation_counter;
 }
 
 

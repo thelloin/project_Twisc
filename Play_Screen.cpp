@@ -24,7 +24,6 @@ Abstract_Gamestate::Gamestate Play_Screen::run_screen(SDL_Renderer& renderer)
 {
 	Currentstate = Gamestate::Playstate;
 	Play_Screen::initialize(renderer);
-
 	const int ticksPerFrame = 1000 / 60;
 
 	while (Currentstate == Gamestate::Playstate) {
@@ -33,8 +32,11 @@ Abstract_Gamestate::Gamestate Play_Screen::run_screen(SDL_Renderer& renderer)
 
 		Play_Screen::handle_input();
 		Play_Screen::updateAll();
-		Play_Screen::drawAll(renderer);
 
+		if (level_to_load < max_level)
+		{
+			Play_Screen::drawAll(renderer);
+		}
 
 		int time_to_wait = ticksPerFrame - (SDL_GetTicks() - ticksAtLoopStart);
 		if (time_to_wait > 0)
@@ -48,7 +50,7 @@ Abstract_Gamestate::Gamestate Play_Screen::run_screen(SDL_Renderer& renderer)
 void Play_Screen::initialize(SDL_Renderer& renderer) {
 	//menu_test { nullptr };
 	//this->renderer = renderer;
-	level = new Level(renderer, level_to_load);
+	level = new Level(renderer, level_to_load, Currentstate);
 	level->initialize_level();
 }
 
@@ -91,7 +93,7 @@ void Play_Screen::handle_input() {
 				level->change_selection(1);
 				break;
 			case SDLK_RETURN:
-				level->execute_selection(Currentstate);
+				level->execute_selection();
 				break;
 			}
 			break;
@@ -124,6 +126,10 @@ void Play_Screen::updateAll()
 	{
 		restart_level();
 	}
+	if (level->get_level_cleared())
+	{
+		next_level();
+	}
 }
 
 void Play_Screen::drawAll(SDL_Renderer& renderer) {
@@ -135,3 +141,13 @@ void Play_Screen::restart_level()
 	delete level;
 	initialize(renderer);
 }
+
+void Play_Screen::next_level()
+{
+	delete level;
+	++level_to_load;
+	std::cout << "tja" << std::endl;
+	initialize(renderer);
+}
+
+

@@ -18,12 +18,14 @@
 #include "entities/Player.h"
 #include "entities/Enemy.h"
 #include "entities/Bullet.h"
+#include "entities/Button.h"
 
 class Level {
 public:
-	Level(SDL_Renderer& renderer, int level_to_load) : screen_width(640),
-		screen_height(480), renderer(renderer), camera{0,0, screen_width, screen_height}, game_paused{false},
-		menu_opened{false}, selected_button{0}, current_level{level_to_load} {}
+	Level(SDL_Renderer& renderer, int level_to_load, Abstract_Gamestate::Gamestate & CurrentState) :
+		screen_width(640), screen_height(480), renderer(renderer), camera{0,0, screen_width, screen_height}, player{nullptr},
+		button{nullptr}, game_paused{false}, menu_opened{false},
+		selected_button{0}, current_level{level_to_load}, level_cleared{false}, CurrentState(CurrentState) {}
 	virtual ~Level();
 
 	void initialize_level();
@@ -41,9 +43,10 @@ public:
 	void pause_game();
 
 	void change_selection(int change);
-	void execute_selection(Abstract_Gamestate::Gamestate & CurrentState);
+	void execute_selection();
 
 	int get_current_level() { return current_level; }
+	bool get_level_cleared() { return level_cleared; }
 
 private:
 	int screen_width;
@@ -57,8 +60,9 @@ private:
 	Player* player;
 	std::map<std::string, SDL_Texture*> textures;
 	std::map<std::string, SDL_Rect> button_rects;
+	Button* button;
 
-	const double CAMERA_SPEED {1};
+	double camera_speed {2};
 	double camera_counter{0};
 
 	bool game_paused;
@@ -67,6 +71,9 @@ private:
 	int selected_button;
 
 	int current_level;
+	bool level_cleared;
+
+	Abstract_Gamestate::Gamestate & CurrentState;
 
 
 };

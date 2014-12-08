@@ -14,13 +14,20 @@ class Bullet : public Enemy
 {
 public:
 	Bullet(int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture) :
-						Enemy(width, height, x_pos, y_pos,in_texture), BULLET_SPEED(-2) {}
+						Enemy(width, height, x_pos, y_pos,in_texture), BULLET_SPEED(-2), lifetime(240),
+						life_counter(0), destroyed(false) {}
 	virtual ~Bullet();
 
 	void update_movement();
 
+	bool is_destroyed(){ return destroyed; }
+
 private:
 	const int BULLET_SPEED;
+
+	const int lifetime;
+	int life_counter;
+	bool destroyed;
 };
 
 #endif /* ENTITIES_BULLET_H_ */

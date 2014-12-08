@@ -53,9 +53,11 @@ Level::~Level() {
 
 void Level::load_from_file()
 {
+
 	//Loads a level from a file line by line and adds it to the
 	//different vectors that contains the objects in the world
-	std::map<std::string, char> objects{{"ground", '#'}, {"player", 'p'}, {"shooting_enemy", 's'}, {"lava", 'l'}};
+	std::map<std::string, char> objects{{"ground", '#'}, {"player", 'p'}, {"shooting_enemy", 's'}, {"lava", 'l'},
+	{"button", 'b'}};
 
 	std::string level_str = "levels/level" + std::to_string(current_level) + ".txt";
 	std::cout << level_str << std::endl;
@@ -86,13 +88,25 @@ void Level::load_from_file()
 			{
 				enemies.push_back(new Lava(80,80,(i*80),(current_line*80), *textures["lava"]));
 			}
+			if (line[i] == objects["button"])
+			{
+				button = new Button(20 ,80 , i*80 + 60, current_line*80, *textures["button"]);
+				//enemies.push_back(new Lava(80,80,(i*80),(current_line*80), *textures["lava"]));
+			}
+
 		}
 		++current_line;
 	}
+
 }
 
 void Level::initialize_level()
 {
+	if (current_level == 4)
+	{
+		CurrentState = Abstract_Gamestate::Menu;
+		return;
+	}
 	SDL_Surface* temp = IMG_Load("textures/wall.png");
 	textures["ground"] = SDL_CreateTextureFromSurface(&renderer, temp);
 	SDL_FreeSurface(temp);
@@ -125,13 +139,18 @@ void Level::initialize_level()
 	button_rects["go_to_button"] = temp_rect;
 	SDL_FreeSurface(temp);
 
-	// Add the wall to the level
+
+	// Add the button-texture to the level
+	temp = IMG_Load("textures/button.png");
+	textures["button"] = SDL_CreateTextureFromSurface(&renderer,temp);
+
+	load_from_file();
+
+	// Add the wall-texture to the level
 	temp = IMG_Load("textures/wall_of_death.png");
 	textures["wall_of_death"] = SDL_CreateTextureFromSurface(&renderer,temp);
 	enemies.push_back(new Wall_Of_Death(500,800,-400,0,
-							*textures["wall_of_death"], CAMERA_SPEED));
-
-	load_from_file();
+							*textures["wall_of_death"], camera_speed));
 	SDL_FreeSurface(temp);
 
 }
@@ -146,15 +165,18 @@ void Level::draw_level(SDL_Renderer& renderer)
 
 		for (Ground*& g : grounds)
 		{
-			g->draw_texture(renderer, CAMERA_SPEED, camera.y);
+			g->draw_texture(renderer, camera_speed, camera.y);
 		}
 
 		for (Enemy*& e : enemies)
 		{
-			e->draw_texture(renderer, CAMERA_SPEED, camera.y);
+			e->draw_texture(renderer, camera_speed, camera.y);
 		}
 
-		player->draw_texture(renderer, CAMERA_SPEED, camera.y);
+		player->draw_texture(renderer, camera_speed, camera.y);
+
+		button->draw_texture(renderer, camera_speed, camera.y);
+
 
 		SDL_RenderPresent(&renderer);
 	}
@@ -175,15 +197,22 @@ void Level::update_level()
 {
 	if (game_paused == false)
 	{
-		player->handle_collisions(enemies);
+		player->handle_collisions(enemies, button);
 
 		player->update_movement(grounds);
 
 		for (unsigned int i{0}; i < enemies.size(); ++i)
 		{
 			enemies[i]->update_movement();
+			Bullet* bullet = dynamic_cast<Bullet*>(enemies[i]);
+			if (bullet != nullptr && bullet->is_destroyed())
+			{
+				delete enemies[i];
+				enemies.erase(enemies.begin() + i);
+			}
 		}
 
+		level_cleared = player->button_pushed(button);
 		update_camera();
 	}
 
@@ -196,7 +225,11 @@ Player*& Level::get_player()
 
 void Level::update_camera()
 {
-	camera.x -= CAMERA_SPEED;
+	if ((button->get_rect().x - camera.x) < 520)
+	{
+		camera.x += camera_speed;
+		camera_speed = 0;
+	}
 	camera.y = player->get_rect().y - 240;
 }
 
@@ -252,7 +285,7 @@ void Level::change_selection(int change)
 	}
 }
 
-void Level::execute_selection(Abstract_Gamestate::Gamestate & CurrentState)
+void Level::execute_selection()
 {
 	if (selected_button == 0)
 	{

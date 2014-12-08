@@ -15,6 +15,11 @@ Bullet::~Bullet() {
 void Bullet::update_movement()
 {
 	obj_rect.x += BULLET_SPEED;
+	++life_counter;
+	if (life_counter >= lifetime)
+	{
+		destroyed = true;
+	}
 
 }
 

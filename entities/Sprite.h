@@ -17,7 +17,7 @@ public:
 
 	SDL_Rect& get_rect() {return obj_rect;}
 
-	void draw_texture(SDL_Renderer& renderer, double camera_speed, int camera_y_pos);
+	virtual void draw_texture(SDL_Renderer& renderer, double camera_speed, int camera_y_pos);
 
 protected:
 	SDL_Rect obj_rect;

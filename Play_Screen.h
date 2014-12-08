@@ -15,7 +15,7 @@
 
 class Play_Screen : public Abstract_Gamestate {
 public:
-	Play_Screen(SDL_Renderer& renderer) : level_to_load(1), renderer(renderer) {}
+	Play_Screen(SDL_Renderer& renderer) : level_to_load(1), renderer(renderer), max_level(4) {}
 	virtual ~Play_Screen();
 
 	Abstract_Gamestate::Gamestate run_screen(SDL_Renderer& renderer);
@@ -31,10 +31,12 @@ private:
 	//SDL_Texture* play_test;
 	Level* level;
 	int level_to_load;
+	const int max_level;
 
 	SDL_Renderer& renderer;
 
 	void restart_level();
+	void next_level();
 
 
 };
