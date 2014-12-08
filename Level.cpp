@@ -12,6 +12,7 @@
 #include <string>
 
 #include "Level.h"
+#include "Abstract_Gamestate.h"
 
 #include "entities/Ground.h"
 #include "entities/Player.h"
@@ -31,6 +32,8 @@ Level::~Level() {
 	SDL_DestroyTexture(textures["bullet"]);
 	SDL_DestroyTexture(textures["lava"]);
 	SDL_DestroyTexture(textures["wall_of_death"]);
+	SDL_DestroyTexture(textures["continue_button"]);
+	SDL_DestroyTexture(textures["go_to_button"]);
 
 
 	delete player;
@@ -48,13 +51,13 @@ Level::~Level() {
 
 }
 
-void Level::load_from_file(int const& level)
+void Level::load_from_file()
 {
 	//Loads a level from a file line by line and adds it to the
 	//different vectors that contains the objects in the world
 	std::map<std::string, char> objects{{"ground", '#'}, {"player", 'p'}, {"shooting_enemy", 's'}, {"lava", 'l'}};
 
-	std::string level_str = "levels/level" + std::to_string(level) + ".txt";
+	std::string level_str = "levels/level" + std::to_string(current_level) + ".txt";
 	std::cout << level_str << std::endl;
 	std::ifstream file(level_str);
 	std::string line;
@@ -88,7 +91,7 @@ void Level::load_from_file(int const& level)
 	}
 }
 
-void Level::initialize_level(int level)
+void Level::initialize_level()
 {
 	SDL_Surface* temp = IMG_Load("textures/wall.png");
 	textures["ground"] = SDL_CreateTextureFromSurface(&renderer, temp);
@@ -110,13 +113,25 @@ void Level::initialize_level(int level)
 	textures["lava"] = SDL_CreateTextureFromSurface(&renderer, temp);
 	SDL_FreeSurface(temp);
 
+	temp = IMG_Load("textures/continue_button.png");
+	textures["continue_button"] = SDL_CreateTextureFromSurface(&renderer, temp);
+	SDL_Rect temp_rect {200,200, temp->w / 2 + 20, temp->h / 2 + 20};
+	button_rects["continue_button"] = temp_rect;
+	SDL_FreeSurface(temp);
+
+	temp = IMG_Load("textures/go_to_button.png");
+	textures["go_to_button"] = SDL_CreateTextureFromSurface(&renderer, temp);
+	temp_rect = {170,300, temp->w / 2, temp->h / 2};
+	button_rects["go_to_button"] = temp_rect;
+	SDL_FreeSurface(temp);
+
 	// Add the wall to the level
 	temp = IMG_Load("textures/wall_of_death.png");
 	textures["wall_of_death"] = SDL_CreateTextureFromSurface(&renderer,temp);
 	enemies.push_back(new Wall_Of_Death(500,800,-400,0,
 							*textures["wall_of_death"], CAMERA_SPEED));
 
-	load_from_file(level);
+	load_from_file();
 	SDL_FreeSurface(temp);
 
 }
@@ -124,38 +139,53 @@ void Level::initialize_level(int level)
 
 void Level::draw_level(SDL_Renderer& renderer)
 {
-	SDL_SetRenderDrawColor(&renderer, 183, 7, 61, 255);
-	SDL_RenderClear(&renderer);
-
-	for (Ground*& g : grounds)
+	if (game_paused == false)
 	{
-		g->draw_texture(renderer, CAMERA_SPEED, camera.y);
-	}
+		SDL_SetRenderDrawColor(&renderer, 183, 7, 61, 255);
+		SDL_RenderClear(&renderer);
 
-	for (Enemy*& e : enemies)
+		for (Ground*& g : grounds)
+		{
+			g->draw_texture(renderer, CAMERA_SPEED, camera.y);
+		}
+
+		for (Enemy*& e : enemies)
+		{
+			e->draw_texture(renderer, CAMERA_SPEED, camera.y);
+		}
+
+		player->draw_texture(renderer, CAMERA_SPEED, camera.y);
+
+		SDL_RenderPresent(&renderer);
+	}
+	else if(menu_opened == true)
 	{
-		e->draw_texture(renderer, CAMERA_SPEED, camera.y);
+		SDL_SetRenderDrawColor(&renderer, 0, 0, 0, 255);
+		SDL_RenderClear(&renderer);
+
+		SDL_RenderCopy(&renderer, textures["continue_button"], nullptr, &button_rects["continue_button"]);
+		SDL_RenderCopy(&renderer, textures["go_to_button"], nullptr, &button_rects["go_to_button"]);
+
+
+		SDL_RenderPresent(&renderer);
 	}
-
-	player->draw_texture(renderer, CAMERA_SPEED, camera.y);
-
-	SDL_RenderPresent(&renderer);
 }
 
 void Level::update_level()
 {
-	player->handle_collisions(enemies);
-
-	player->update_movement(grounds);
-
-	for (unsigned int i{0}; i < enemies.size(); ++i)
+	if (game_paused == false)
 	{
-		enemies[i]->update_movement();
+		player->handle_collisions(enemies);
+
+		player->update_movement(grounds);
+
+		for (unsigned int i{0}; i < enemies.size(); ++i)
+		{
+			enemies[i]->update_movement();
+		}
+
+		update_camera();
 	}
-
-
-	update_camera();
-
 
 }
 
@@ -169,3 +199,70 @@ void Level::update_camera()
 	camera.x -= CAMERA_SPEED;
 	camera.y = player->get_rect().y - 240;
 }
+
+void Level::pause_game()
+{
+	if (menu_opened == false)
+	{
+		game_paused = !game_paused;
+	}
+}
+
+void Level::game_menu()
+{
+	if ((menu_opened == true && game_paused == true)
+			|| (menu_opened == false && game_paused == false))
+	{
+		menu_opened = !menu_opened;
+		game_paused = !game_paused;
+	}
+}
+
+void Level::change_selection(int change)
+{
+	if (menu_opened == true)
+	{
+		selected_button += change;
+		//Makes the selection "loop"
+		if (selected_button > 1)
+		{
+			selected_button = 0;
+		}
+
+		if (selected_button < 0)
+		{
+			selected_button = 1;
+		}
+		//Changed the rectangles size if selected
+		if (selected_button == 0)
+		{
+			button_rects["continue_button"].w += 20;
+			button_rects["continue_button"].h += 20;
+			button_rects["go_to_button"].w -= 20;
+			button_rects["go_to_button"].h -= 20;
+		}
+
+		if (selected_button == 1)
+		{
+			button_rects["continue_button"].w -= 20;
+			button_rects["continue_button"].h -= 20;
+			button_rects["go_to_button"].w += 20;
+			button_rects["go_to_button"].h += 20;
+		}
+	}
+}
+
+void Level::execute_selection(Abstract_Gamestate::Gamestate & CurrentState)
+{
+	if (selected_button == 0)
+	{
+		game_menu();
+	}
+	if (selected_button == 1)
+	{
+		CurrentState = Abstract_Gamestate::Gamestate::Menu;
+	}
+}
+
+
+

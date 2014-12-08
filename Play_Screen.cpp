@@ -48,8 +48,8 @@ Abstract_Gamestate::Gamestate Play_Screen::run_screen(SDL_Renderer& renderer)
 void Play_Screen::initialize(SDL_Renderer& renderer) {
 	//menu_test { nullptr };
 	//this->renderer = renderer;
-	level = new Level(renderer);
-	level->initialize_level(level_to_load);
+	level = new Level(renderer, level_to_load);
+	level->initialize_level();
 }
 
 
@@ -60,12 +60,6 @@ void Play_Screen::handle_input() {
 
 		switch (event.type)
 		{
-		case SDL_MOUSEBUTTONDOWN:
-			Currentstate = Gamestate::Exit;
-			break;
-		case SDL_MOUSEMOTION:
-			//player->setCircleCenter(event.motion.x, event.motion.y);
-			break;
 		case SDL_QUIT:
 			Currentstate = Gamestate::Exit;
 			break;
@@ -83,6 +77,21 @@ void Play_Screen::handle_input() {
 				break;
 			case SDLK_SPACE:
 				(level->get_player())->dash();
+				break;
+			case SDLK_ESCAPE:
+				level->game_menu();
+				break;
+			case SDLK_p:
+				level->pause_game();
+				break;
+			case SDLK_UP:
+				level->change_selection(-1);
+				break;
+			case SDLK_DOWN:
+				level->change_selection(1);
+				break;
+			case SDLK_RETURN:
+				level->execute_selection(Currentstate);
 				break;
 			}
 			break;
@@ -124,6 +133,5 @@ void Play_Screen::drawAll(SDL_Renderer& renderer) {
 void Play_Screen::restart_level()
 {
 	delete level;
-	level_to_load = 2;
 	initialize(renderer);
 }

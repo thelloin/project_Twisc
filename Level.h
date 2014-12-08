@@ -12,6 +12,8 @@
 #include <map>
 #include <SDL2/SDL.h>
 
+#include "Abstract_Gamestate.h"
+
 #include "entities/Ground.h"
 #include "entities/Player.h"
 #include "entities/Enemy.h"
@@ -19,19 +21,30 @@
 
 class Level {
 public:
-	Level(SDL_Renderer& renderer) : screen_width(640),
-		screen_height(480), renderer(renderer), camera{0,0, screen_width, screen_height} {}
+	Level(SDL_Renderer& renderer, int level_to_load) : screen_width(640),
+		screen_height(480), renderer(renderer), camera{0,0, screen_width, screen_height}, game_paused{false},
+		menu_opened{false}, selected_button{0}, current_level{level_to_load} {}
 	virtual ~Level();
 
-	void initialize_level(int level);
+	void initialize_level();
 
 	void update_level();
 	void update_camera();
 
 	void draw_level(SDL_Renderer& renderer);
-	void load_from_file(int const& level);
+	void load_from_file();
+
+	void game_menu();
 
 	Player*& get_player();
+
+	void pause_game();
+
+	void change_selection(int change);
+	void execute_selection(Abstract_Gamestate::Gamestate & CurrentState);
+
+	int get_current_level() { return current_level; }
+
 private:
 	int screen_width;
 	int screen_height;
@@ -43,9 +56,19 @@ private:
 	std::vector<Ground*> grounds;
 	Player* player;
 	std::map<std::string, SDL_Texture*> textures;
+	std::map<std::string, SDL_Rect> button_rects;
 
 	const double CAMERA_SPEED {1};
 	double camera_counter{0};
+
+	bool game_paused;
+	bool menu_opened;
+
+	int selected_button;
+
+	int current_level;
+
+
 };
 
 #endif /* ENTITIES_LEVEL_H_ */

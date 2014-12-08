@@ -9,11 +9,12 @@
 #define MENU_H_
 
 #include "Abstract_Gamestate.h"
+#include <map>
 #include <SDL2/SDL.h>
 
 class Menu : public Abstract_Gamestate{
 public:
-	Menu();
+	Menu() : selected_button(0) {}
 	virtual ~Menu();
 
 	Abstract_Gamestate::Gamestate run_screen(SDL_Renderer& renderer);
@@ -24,11 +25,16 @@ protected:
 	void updateAll();
 	void drawAll(SDL_Renderer& renderer);
 
-	void load_texture(SDL_Texture* & texture_to_load, std::string path, SDL_Renderer& renderer);
 
 private:
 	//SDL_Texture* menu_test;
 	//Abstract_Gamestate::Gamestate Menustate {Gamestate::Menu};
+	int selected_button;
+	std::map<std::string, SDL_Texture*> textures;
+	std::map<std::string, SDL_Rect> rects;
+
+	void change_selection();
+	void execute_selection();
 };
 
 #endif /* MENU_H_ */
