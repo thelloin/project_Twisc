@@ -11,6 +11,7 @@
 #include <ctime>
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 
 #include "Abstract_Gamestate.h"
 #include "Menu.h"
@@ -18,15 +19,22 @@
 
 using namespace std;
 
+// Load the music
+void load_music(Mix_Music*&);
+
 int main(int argc, char* argv[]) {
 	//srand(time(nullptr));
 
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 		std::cout << "Unable to initialize SDL: " << SDL_GetError()
 				<< std::endl;
 		return 1;
 	}
 
+	 if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
+	 {
+		 printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+	 }
 	atexit(SDL_Quit);
 
 	// create the window
@@ -38,6 +46,9 @@ int main(int argc, char* argv[]) {
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 	// render at a virtual resolution then stretch to actual resolution
 	SDL_RenderSetLogicalSize(renderer, 640, 480);
+
+	Mix_Music* music = NULL;
+	load_music(music);
 
 	Abstract_Gamestate* game = new Menu();
 	while (game->get_state() != game->Gamestate::Exit)
@@ -74,5 +85,11 @@ int main(int argc, char* argv[]) {
 	/////
 	return 0;
 
+}
+
+void load_music(Mix_Music*& music)
+{
+	music = Mix_LoadMUS( "audio/background_music.mp3" );
+	Mix_PlayMusic(music, -1);
 }
 

@@ -25,13 +25,14 @@ void Player::update_movement(std::vector<Ground*> const& grounds) {
 	case (LEFT):
 		if (!check_x_collision(grounds, -x_speed))
 		{
-
+			facing_direction = LEFT;
 			obj_rect.x -= x_speed;
 		}
 		break;
 	case (RIGHT):
 		if (!check_x_collision(grounds, x_speed) && obj_rect.x < 590)
 		{
+			facing_direction = RIGHT;
 			obj_rect.x += x_speed;
 		}
 		break;
@@ -246,36 +247,54 @@ void Player::draw_texture(SDL_Renderer& renderer, double camera_speed, int camer
 	obj_rect.x -= camera_speed;
 	update_animation();
 
-	if (current_direction == RIGHT)
+	if (facing_direction == RIGHT)
 	{
 		SDL_RenderCopy(&renderer, &texture, &frame_rect, &obj_rect);
 	}
-	if (current_direction == LEFT)
+	if (facing_direction == LEFT)
 	{
 		SDL_RenderCopyEx(&renderer, &texture, &frame_rect, &obj_rect, 0, nullptr, SDL_FLIP_HORIZONTAL);
 	}
-	if (current_direction == NONE)
-	{
-		SDL_RenderCopy(&renderer, &texture, &frame_rect, &obj_rect);
-	}
-
 }
 
 void Player::update_animation()
 {
-	if (animation_counter == animation_fps)
+	//Walking animation
+	if ((current_direction == RIGHT || current_direction == LEFT) && grounded == true)
 	{
-		if (frame_rect.x == 0)
+		frame_rect.y = 0;
+		if (animation_counter == animation_fps)
 		{
-			frame_rect.x += frame_length;
+			if (frame_rect.x < 54)
+			{
+				frame_rect.x += frame_length;
+			}
+			else
+			{
+				frame_rect.x = 0;
+			}
+			animation_counter = 0;
 		}
-		else
-		{
-			frame_rect.x = 0;
-		}
-		animation_counter = 0;
+		++animation_counter;
 	}
-	++animation_counter;
+	//If we are jumping but not dashing
+	else if (grounded == false && is_dashing == false)
+	{
+		frame_rect.x = 0;
+		frame_rect.y = frame_heigth;
+	}
+	//If we are standing still
+	else
+	{
+		frame_rect.x = 0;
+		frame_rect.y = 0;
+	}
+	//If we are dashing
+	if (is_dashing == true)
+	{
+		frame_rect.x = frame_length;
+		frame_rect.y = frame_heigth;
+	}
 }
 
 
