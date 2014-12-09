@@ -124,6 +124,8 @@ void Play_Screen::updateAll()
 	// Check if the player has died
 	if (level->get_player()->get_dead_status())
 	{
+		level->death_message();
+		SDL_Delay(2000);
 		restart_level();
 	}
 	if (level->get_level_cleared())

@@ -48,6 +48,8 @@ public:
 	int get_current_level() { return current_level; }
 	bool get_level_cleared() { return level_cleared; }
 
+	void death_message();
+
 private:
 	int screen_width;
 	int screen_height;

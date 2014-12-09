@@ -22,35 +22,59 @@ using namespace std;
 // Load the music
 void load_music(Mix_Music*&);
 
-int main(int argc, char* argv[]) {
-	//srand(time(nullptr));
+void init_game(SDL_Window*& window, SDL_Renderer*& renderer, Mix_Music* music);
 
+void run_game(Abstract_Gamestate* game, SDL_Renderer*& renderer);
+
+void destroy_game(SDL_Window*& window, SDL_Renderer*& renderer, Mix_Music* music, Abstract_Gamestate* game);
+
+int main(int argc, char* argv[]) {
+
+
+	SDL_Window* window;
+	SDL_Renderer* renderer;
+	Mix_Music* music = NULL;
+
+	Abstract_Gamestate* game = new Menu();
+
+	init_game(window, renderer, music);
+	run_game(game, renderer);
+	destroy_game(window, renderer, music, game);
+
+	return 0;
+
+}
+
+void init_game(SDL_Window*& window, SDL_Renderer*& renderer, Mix_Music* music)
+{
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 		std::cout << "Unable to initialize SDL: " << SDL_GetError()
 				<< std::endl;
-		return 1;
 	}
 
-	 if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
-	 {
-		 printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
-	 }
+	if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
+	{
+		printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+	}
 	atexit(SDL_Quit);
 
 	// create the window
-	SDL_Window* window = SDL_CreateWindow("SDL Test", SDL_WINDOWPOS_UNDEFINED,
+	window = SDL_CreateWindow("SDL Test", SDL_WINDOWPOS_UNDEFINED,
 	SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_RESIZABLE);
-	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
+	renderer = SDL_CreateRenderer(window, -1, 0);
 
 	// make the scaled rendering look smoother
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 	// render at a virtual resolution then stretch to actual resolution
 	SDL_RenderSetLogicalSize(renderer, 640, 480);
 
-	Mix_Music* music = NULL;
-	load_music(music);
 
-	Abstract_Gamestate* game = new Menu();
+	load_music(music);
+}
+
+void run_game(Abstract_Gamestate* game, SDL_Renderer*& renderer)
+{
+
 	while (game->get_state() != game->Gamestate::Exit)
 	{
 		game->run_screen(*renderer);
@@ -59,7 +83,6 @@ int main(int argc, char* argv[]) {
 		case game->Gamestate::Exit:
 			std::cout << "You exited the game!" << std::endl;
 			delete game;
-			return 0;
 			break;
 		case game->Gamestate::Menu:
 			delete game;
@@ -74,7 +97,10 @@ int main(int argc, char* argv[]) {
 			break;
 		}
 	}
+}
 
+void destroy_game(SDL_Window*& window, SDL_Renderer*& renderer, Mix_Music* music, Abstract_Gamestate* game)
+{
 	//delete game;
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
@@ -82,9 +108,6 @@ int main(int argc, char* argv[]) {
 	renderer = nullptr;
 	window = nullptr;
 	SDL_Quit();
-	/////
-	return 0;
-
 }
 
 void load_music(Mix_Music*& music)

@@ -136,7 +136,6 @@ bool Player::check_x_collision(std::vector<Ground*> const& grounds, int pos_chan
 	// Check if we have collided with an object and if the character is dashing
 	if (has_collided && is_dashing)
 	{
-		std::cout << "You ded" << std::endl;
 		is_dead = true;
 	}
 	return has_collided;

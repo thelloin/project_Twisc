@@ -297,5 +297,13 @@ void Level::execute_selection()
 	}
 }
 
+void Level::death_message()
+{
+	//Tells the player about his/her death
+	SDL_Rect a = {0,0,100,100};
+	SDL_RenderCopy(&renderer, textures["player"], nullptr , &a);
+	SDL_RenderPresent(&renderer);
+}
+
 
 
