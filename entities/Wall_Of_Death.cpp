@@ -9,9 +9,7 @@
 
 
 
-Wall_Of_Death::~Wall_Of_Death() {
-	// TODO Auto-generated destructor stub
-}
+Wall_Of_Death::~Wall_Of_Death() {}
 
 void Wall_Of_Death::update_movement()
 {
@@ -20,7 +18,7 @@ void Wall_Of_Death::update_movement()
 
 void Wall_Of_Death::update_animation()
 {
-	if (animation_counter == animation_fps)
+	if (animation_counter == ANIMATION_FPS)
 	{
 		if (frame_rect.x == 100)
 		{

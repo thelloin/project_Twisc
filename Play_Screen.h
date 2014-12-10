@@ -10,14 +10,14 @@
 
 #include <SDL2/SDL.h>
 
-
 #include "Abstract_Gamestate.h"
 #include "Level.h"
 #include "Audio.h"
+#include "entities/Player.h"
 
 class Play_Screen : public Abstract_Gamestate {
 public:
-	Play_Screen(SDL_Renderer& renderer) : level_to_load(1), renderer(renderer), max_level(4) {}
+	Play_Screen(SDL_Renderer& renderer) : level_to_load(1), MAX_LEVEL(4), renderer(renderer) {}
 	virtual ~Play_Screen();
 
 	Abstract_Gamestate::Gamestate run_screen(SDL_Renderer& renderer);
@@ -33,7 +33,7 @@ private:
 	//SDL_Texture* play_test;
 	Level* level;
 	int level_to_load;
-	const int max_level;
+	const int MAX_LEVEL;
 
 	SDL_Renderer& renderer;
 

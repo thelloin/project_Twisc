@@ -16,7 +16,7 @@ class Ground : public Sprite {
 public:
 	Ground(int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture) :
 		Sprite(width, height, x_pos, y_pos,in_texture) {}
-	virtual ~Ground();
+	virtual ~Ground(){};
 };
 
 #endif /* ENTITIES_GROUND_H_ */

@@ -8,9 +8,7 @@
 #include "Lava.h"
 
 
-Lava::~Lava() {
-	// TODO Auto-generated destructor stub
-}
+Lava::~Lava() {}
 
 void Lava::update_movement()
 {
@@ -20,7 +18,7 @@ void Lava::update_movement()
 
 void Lava::update_animation()
 {
-	if (animation_counter == animation_fps)
+	if (animation_counter == ANIMATION_FPS)
 	{
 		if (frame_rect.x == 16)
 		{

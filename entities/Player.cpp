@@ -4,18 +4,13 @@
  *  Created on: 28 nov 2014
  *      Author: eried975
  */
-#include <iostream>
-
 #include "Player.h"
-#include "Shooting_Enemy.h"
-#include "Enemy.h"
+
+Player::~Player() {}
 
 void Player::set_direction(Direction dir)
 {
 	current_direction = dir;
-}
-Player::~Player() {
-	// TODO Auto-generated destructor stub
 }
 
 void Player::update_movement(std::vector<Ground*> const& grounds) {
@@ -166,13 +161,13 @@ bool Player::check_x_collision(std::vector<Ground*> const& grounds, int pos_chan
 	return has_collided;
 }
 
-bool Player::check_y_top_collision(Ground* const& ground, SDL_Rect new_pos)
+bool Player::check_y_top_collision(Ground* const& ground, SDL_Rect new_pos) const
 {
 	return (new_pos.y < (ground->get_rect().h + ground->get_rect().y))
 			&& (new_pos.y > ground->get_rect().y);
 }
 
-bool Player::check_y_bottom_collision(Ground* const& ground, SDL_Rect new_pos)
+bool Player::check_y_bottom_collision(Ground* const& ground, SDL_Rect new_pos) const
 {
 	return (new_pos.h + new_pos.y) > ground->get_rect().y
 			&& (new_pos.h + new_pos.y)
@@ -263,7 +258,7 @@ void Player::dash()
 	}
 }
 
-bool Player::button_pushed(Button* const& button)
+bool Player::button_pushed(Button* const& button) const
 {
 	return intersect(button, 0);
 }
@@ -290,11 +285,11 @@ void Player::update_animation()
 	if ((current_direction == RIGHT || current_direction == LEFT) && grounded == true)
 	{
 		frame_rect.y = 0;
-		if (animation_counter == animation_fps)
+		if (animation_counter == ANIMATION_FPS)
 		{
 			if (frame_rect.x < 54)
 			{
-				frame_rect.x += frame_length;
+				frame_rect.x += FRAME_LENGTH;
 			}
 			else
 			{
@@ -308,7 +303,7 @@ void Player::update_animation()
 	else if (grounded == false && is_dashing == false)
 	{
 		frame_rect.x = 0;
-		frame_rect.y = frame_heigth;
+		frame_rect.y = FRAME_HEIGHT;
 	}
 	//If we are standing still
 	else
@@ -319,8 +314,8 @@ void Player::update_animation()
 	//If we are dashing
 	if (is_dashing == true)
 	{
-		frame_rect.x = frame_length;
-		frame_rect.y = frame_heigth;
+		frame_rect.x = FRAME_LENGTH;
+		frame_rect.y = FRAME_HEIGHT;
 	}
 }
 

@@ -14,9 +14,7 @@ Sprite::Sprite(int width, int height, int x_pos, int y_pos, SDL_Texture& in_text
 		obj_rect.y = y_pos;
 	}
 
-Sprite::~Sprite() {
-	// The texture is removed in level with SDL_DestroyTexture()
-}
+Sprite::~Sprite() {}
 
 void Sprite::draw_texture(SDL_Renderer& renderer, double camera_speed, int camera_y_pos)
 {

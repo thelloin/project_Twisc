@@ -14,6 +14,7 @@
 #include "Sprite.h"
 #include "Ground.h"
 #include "Enemy.h"
+#include "Shooting_Enemy.h"
 #include "Bullet.h"
 #include "Button.h"
 
@@ -24,8 +25,9 @@ public:
 			Sprite(width, height, x_pos, y_pos,in_texture),
 			GRAVITY{0.25}, DEFAULT_Y_SPEED(-9), DEFAULT_X_SPEED(3), grounded(true), is_dashing(false),
 			can_dash(true), DASH_TIME(7), dash_timer(0), DASH_SPEED(20 ), y_speed(0),
-			x_speed(DEFAULT_X_SPEED), has_powerup(false),POWER_SPEED(6), POWER_TIME(240), power_timer(0),current_direction(NONE), facing_direction(RIGHT), animation_fps(7),
-			animation_counter(0), frame_length(18), frame_heigth(33),  frame_rect{0,0,18,33} {}
+			x_speed(DEFAULT_X_SPEED), has_powerup(false),POWER_SPEED(6), POWER_TIME(240),
+			power_timer(0),current_direction(NONE), facing_direction(RIGHT), ANIMATION_FPS(7),
+			animation_counter(0), FRAME_LENGTH(18), FRAME_HEIGHT(33),  frame_rect{0,0,18,33} {}
 	virtual ~Player();
 
 
@@ -43,17 +45,17 @@ public:
 	void handle_collisions(std::vector<Enemy*>& enemies,  Button* const& button);
 	bool check_x_collision(std::vector<Ground*> const& grounds, int pos_change);
 
-	bool check_y_top_collision(Ground* const& ground, SDL_Rect new_pos);
-	bool check_y_bottom_collision(Ground* const& ground, SDL_Rect new_pos);
+	bool check_y_top_collision(Ground* const& ground, SDL_Rect new_pos) const;
+	bool check_y_bottom_collision(Ground* const& ground, SDL_Rect new_pos) const;
 	void update_y_movement(std::vector<Ground*> const& grounds);
 
-	bool get_dead_status() { return is_dead; }
+	bool get_dead_status() const { return is_dead; }
 
-	bool button_pushed(Button* const& button);
+	bool button_pushed(Button* const& button) const;
 
 	void draw_texture(SDL_Renderer& renderer, double camera_speed, int camera_y_pos);
 
-	bool get_has_powerup() { return has_powerup; }
+	bool get_has_powerup() const { return has_powerup; }
 
 private:
 	const double GRAVITY;
@@ -80,10 +82,10 @@ private:
 	Direction current_direction;
 	Direction facing_direction;
 
-	int animation_fps;
+	const int ANIMATION_FPS;
 	int animation_counter;
-	int frame_length;
-	int frame_heigth;
+	const int FRAME_LENGTH;
+	const int FRAME_HEIGHT;
 	SDL_Rect frame_rect;
 
 };

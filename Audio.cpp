@@ -4,7 +4,6 @@
  *  Created on: 10 dec 2014
  *      Author: tomli962
  */
-#include <iostream>
 #include "Audio.h"
 
 std::map<std::string ,Mix_Chunk*> Audio::audio_track;

@@ -4,15 +4,8 @@
  *  Created on: 21 nov 2014
  *      Author: eried975
  */
-#include <iostream>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <string>
 
 #include "Play_Screen.h"
-#include "entities/Player.h"
-
-
 
 Play_Screen::~Play_Screen()
 {
@@ -33,7 +26,7 @@ Abstract_Gamestate::Gamestate Play_Screen::run_screen(SDL_Renderer& renderer)
 		Play_Screen::handle_input();
 		Play_Screen::updateAll();
 
-		if (level_to_load < max_level)
+		if (level_to_load < MAX_LEVEL)
 		{
 			Play_Screen::drawAll(renderer);
 		}

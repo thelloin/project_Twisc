@@ -10,15 +10,20 @@
 
 #include <vector>
 #include <map>
+#include <fstream>
+
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 #include "Abstract_Gamestate.h"
-
 #include "entities/Ground.h"
 #include "entities/Player.h"
 #include "entities/Enemy.h"
 #include "entities/Bullet.h"
 #include "entities/Button.h"
+#include "entities/Wall_Of_Death.h"
+#include "entities/Shooting_Enemy.h"
+#include "entities/Lava.h"
 
 class Level {
 public:
@@ -45,8 +50,8 @@ public:
 	void change_selection(int change);
 	void execute_selection();
 
-	int get_current_level() { return current_level; }
-	bool get_level_cleared() { return level_cleared; }
+	int get_current_level() const { return current_level; }
+	bool get_level_cleared() const { return level_cleared; }
 
 	void display_message(std::string message, SDL_Rect display_pos);
 

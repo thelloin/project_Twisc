@@ -4,23 +4,8 @@
  *  Created on: 24 nov 2014
  *      Author: tomli962
  */
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-
-#include <iostream>
-#include <fstream>
-#include <string>
-
 #include "Level.h"
-#include "Abstract_Gamestate.h"
-
-#include "entities/Ground.h"
-#include "entities/Player.h"
-#include "entities/Shooting_Enemy.h"
-#include "entities/Wall_Of_Death.h"
-#include "entities/Lava.h"
-#include "entities/Enemy.h"
-
+#include "iostream"
 /*Level::Level() {
 	// TODO Auto-generated constructor stub
 
@@ -34,7 +19,12 @@ Level::~Level() {
 	SDL_DestroyTexture(textures["wall_of_death"]);
 	SDL_DestroyTexture(textures["continue_button"]);
 	SDL_DestroyTexture(textures["go_to_button"]);
-
+	SDL_DestroyTexture(textures["die_message"]);
+	SDL_DestroyTexture(textures["level_cleared_message"]);
+	SDL_DestroyTexture(textures["powerup_message"]);
+	SDL_DestroyTexture(textures["game_beaten_message"]);
+	SDL_DestroyTexture(textures["shooting_enemy"]);
+	SDL_DestroyTexture(textures["button"]);
 
 	delete player;
 
@@ -42,13 +32,10 @@ Level::~Level() {
 	{
 		delete grounds[i];
 	}
-	for (int i{0}; i < enemies.size(); i++)
+	for (unsigned int i{0}; i < enemies.size(); i++)
 	{
-		std::cout << "borttagen" << std::endl;
 		delete enemies[i];
 	}
-
-
 }
 
 void Level::load_from_file()
@@ -60,7 +47,6 @@ void Level::load_from_file()
 	{"button", 'b'}};
 
 	std::string level_str = "levels/level" + std::to_string(current_level) + ".txt";
-	std::cout << level_str << std::endl;
 	std::ifstream file(level_str);
 	std::string line;
 	int current_line{0};
@@ -97,6 +83,7 @@ void Level::load_from_file()
 		}
 		++current_line;
 	}
+	file.close();
 
 }
 

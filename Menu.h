@@ -11,6 +11,7 @@
 #include "Abstract_Gamestate.h"
 #include <map>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 class Menu : public Abstract_Gamestate{
 public:
@@ -27,8 +28,6 @@ protected:
 
 
 private:
-	//SDL_Texture* menu_test;
-	//Abstract_Gamestate::Gamestate Menustate {Gamestate::Menu};
 	int selected_button;
 	std::map<std::string, SDL_Texture*> textures;
 	std::map<std::string, SDL_Rect> rects;

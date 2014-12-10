@@ -13,14 +13,14 @@
 
 class Abstract_Gamestate {
 public:
-	Abstract_Gamestate();
-	virtual ~Abstract_Gamestate();
+	Abstract_Gamestate(){};
+	virtual ~Abstract_Gamestate(){};
 
 	enum Gamestate{Menu, Playstate, Gameover, Exit, None};
 
 	virtual Gamestate run_screen(SDL_Renderer& renderer) = 0;
 
-	Gamestate get_state() { return Currentstate; }
+	Gamestate get_state() const { return Currentstate; }
 
 protected:
 	virtual void initialize(SDL_Renderer& renderer) = 0;

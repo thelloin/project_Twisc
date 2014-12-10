@@ -26,13 +26,14 @@ public:
 	void update_movement();
 
 
-	int counter = 0;
 
 private:
 	const int SHOOT_COOLDOWN;
 	int cooldown_timer;
 	std::vector<Enemy*>& enemies;
 	SDL_Texture& bullet_texture;
+
+	int counter{0};
 
 
 	void shoot();

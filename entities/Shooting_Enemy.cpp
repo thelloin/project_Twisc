@@ -5,15 +5,10 @@
  *      Author: tomli962
  */
 
-#include <vector>
-#include <iostream>
-
 #include "Shooting_Enemy.h"
-#include "Bullet.h"
 
-Shooting_Enemy::~Shooting_Enemy() {
-	// TODO Auto-generated destructor stub
-}
+
+Shooting_Enemy::~Shooting_Enemy() {}
 
 void Shooting_Enemy::update_movement()
 {

@@ -16,7 +16,7 @@ class Wall_Of_Death : public Enemy{
 public:
 	Wall_Of_Death(int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture, int speed) :
 						Enemy(width, height, x_pos, y_pos,in_texture), wall_speed(speed),
-						animation_fps(4), animation_counter(0), frame_length(99), frame_rect{0,0,99,200} {}
+						ANIMATION_FPS(4), animation_counter(0), frame_rect{0,0,99,200} {}
 	virtual ~Wall_Of_Death();
 
 	void update_movement();
@@ -29,9 +29,8 @@ public:
 private:
 	int wall_speed;
 
-	int animation_fps;
+	const int ANIMATION_FPS;
 	int animation_counter;
-	int frame_length;
 	SDL_Rect frame_rect;
 };
 

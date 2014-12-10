@@ -5,7 +5,6 @@
  *      Author: eried975
  */
 #include <iostream>
-#include <string>
 
 #include <cstdlib>
 #include <ctime>
@@ -21,31 +20,30 @@
 using namespace std;
 
 // Load the music
-void load_music(Mix_Music*&);
+void load_music();
 
-void init_game(SDL_Window*& window, SDL_Renderer*& renderer, Mix_Music* music);
+void init_game(SDL_Window*& window, SDL_Renderer*& renderer);
 
 void run_game(Abstract_Gamestate* game, SDL_Renderer*& renderer);
 
-void destroy_game(SDL_Window*& window, SDL_Renderer*& renderer, Mix_Music* music, Abstract_Gamestate* game);
+void destroy_game(SDL_Window*& window, SDL_Renderer*& renderer, Abstract_Gamestate* game);
 
 int main(int argc, char* argv[]) {
 
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	Mix_Music* music = NULL;
 
 	Abstract_Gamestate* game = new Menu();
 
-	init_game(window, renderer, music);
+	init_game(window, renderer);
 	run_game(game, renderer);
-	destroy_game(window, renderer, music, game);
+	destroy_game(window, renderer, game);
 
 	return 0;
 
 }
 
-void init_game(SDL_Window*& window, SDL_Renderer*& renderer, Mix_Music* music)
+void init_game(SDL_Window*& window, SDL_Renderer*& renderer)
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 		std::cout << "Unable to initialize SDL: " << SDL_GetError()
@@ -69,7 +67,7 @@ void init_game(SDL_Window*& window, SDL_Renderer*& renderer, Mix_Music* music)
 	SDL_RenderSetLogicalSize(renderer, 640, 480);
 
 
-	load_music(music);
+	load_music();
 }
 
 void run_game(Abstract_Gamestate* game, SDL_Renderer*& renderer)
@@ -81,7 +79,6 @@ void run_game(Abstract_Gamestate* game, SDL_Renderer*& renderer)
 		switch (game->get_state())
 		{
 		case game->Gamestate::Exit:
-			std::cout << "You exited the game!" << std::endl;
 			delete game;
 			break;
 		case game->Gamestate::Menu:
@@ -94,12 +91,13 @@ void run_game(Abstract_Gamestate* game, SDL_Renderer*& renderer)
 			break;
 		default:
 			// do nothing
+			delete game;
 			break;
 		}
 	}
 }
 
-void destroy_game(SDL_Window*& window, SDL_Renderer*& renderer, Mix_Music* music, Abstract_Gamestate* game)
+void destroy_game(SDL_Window*& window, SDL_Renderer*& renderer, Abstract_Gamestate* game)
 {
 	//delete game;
 	SDL_DestroyRenderer(renderer);
@@ -111,7 +109,7 @@ void destroy_game(SDL_Window*& window, SDL_Renderer*& renderer, Mix_Music* music
 	SDL_Quit();
 }
 
-void load_music(Mix_Music*& music)
+void load_music()
 {
 	Audio::initialize();
 }
