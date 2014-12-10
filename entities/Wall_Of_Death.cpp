@@ -15,7 +15,7 @@ Wall_Of_Death::~Wall_Of_Death() {
 
 void Wall_Of_Death::update_movement()
 {
-	obj_rect.x += WALL_SPEED;
+	obj_rect.x += wall_speed;
 }
 
 void Wall_Of_Death::update_animation()
@@ -42,4 +42,9 @@ void Wall_Of_Death::draw_texture(SDL_Renderer& renderer, double camera_speed, in
 
 	update_animation();
 	SDL_RenderCopy(&renderer, &texture, &frame_rect, &obj_rect);
+}
+
+void Wall_Of_Death::set_wall_speed(int new_speed)
+{
+	wall_speed = new_speed;
 }

@@ -124,12 +124,18 @@ void Play_Screen::updateAll()
 	// Check if the player has died
 	if (level->get_player()->get_dead_status())
 	{
-		level->death_message();
+		Audio::play_effect("death");
+		SDL_Rect temp_rect = {320 - 150,180,300,100};
+		level->display_message("die_message", temp_rect);
 		SDL_Delay(2000);
 		restart_level();
 	}
 	if (level->get_level_cleared())
 	{
+		Audio::play_effect("level_cleared");
+		SDL_Rect temp_rect = {320 - 150,180,300,100};
+		level->display_message("level_cleared_message", temp_rect);
+		SDL_Delay(2000);
 		next_level();
 	}
 }
@@ -148,7 +154,6 @@ void Play_Screen::next_level()
 {
 	delete level;
 	++level_to_load;
-	std::cout << "tja" << std::endl;
 	initialize(renderer);
 }
 

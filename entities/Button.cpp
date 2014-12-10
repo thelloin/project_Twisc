@@ -9,7 +9,5 @@
 
 
 
-Button::~Button() {
-	// TODO Auto-generated destructor stub
-}
+Button::~Button() {}
 

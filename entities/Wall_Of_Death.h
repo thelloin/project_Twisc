@@ -15,7 +15,7 @@
 class Wall_Of_Death : public Enemy{
 public:
 	Wall_Of_Death(int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture, int speed) :
-						Enemy(width, height, x_pos, y_pos,in_texture), WALL_SPEED(speed),
+						Enemy(width, height, x_pos, y_pos,in_texture), wall_speed(speed),
 						animation_fps(4), animation_counter(0), frame_length(99), frame_rect{0,0,99,200} {}
 	virtual ~Wall_Of_Death();
 
@@ -24,8 +24,10 @@ public:
 
 	void draw_texture(SDL_Renderer& renderer, double camera_speed, int camera_y_pos);
 
+	void set_wall_speed(int new_speed);
+
 private:
-	const int WALL_SPEED;
+	int wall_speed;
 
 	int animation_fps;
 	int animation_counter;

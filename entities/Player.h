@@ -24,7 +24,7 @@ public:
 			Sprite(width, height, x_pos, y_pos,in_texture),
 			GRAVITY{0.25}, DEFAULT_Y_SPEED(-9), DEFAULT_X_SPEED(3), grounded(true), is_dashing(false),
 			can_dash(true), DASH_TIME(7), dash_timer(0), DASH_SPEED(20 ), y_speed(0),
-			x_speed(DEFAULT_X_SPEED), current_direction(NONE), facing_direction(RIGHT), animation_fps(7),
+			x_speed(DEFAULT_X_SPEED), has_powerup(false),POWER_SPEED(6), POWER_TIME(240), power_timer(0),current_direction(NONE), facing_direction(RIGHT), animation_fps(7),
 			animation_counter(0), frame_length(18), frame_heigth(33),  frame_rect{0,0,18,33} {}
 	virtual ~Player();
 
@@ -53,6 +53,8 @@ public:
 
 	void draw_texture(SDL_Renderer& renderer, double camera_speed, int camera_y_pos);
 
+	bool get_has_powerup() { return has_powerup; }
+
 private:
 	const double GRAVITY;
 	const int DEFAULT_Y_SPEED;
@@ -68,6 +70,11 @@ private:
 
 	double y_speed;
 	int x_speed;
+
+	bool has_powerup;
+	const int POWER_SPEED;
+	const int POWER_TIME;
+	int power_timer;
 
 	bool is_dead{false};
 	Direction current_direction;

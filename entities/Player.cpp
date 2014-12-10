@@ -48,14 +48,38 @@ void Player::update_movement(std::vector<Ground*> const& grounds) {
 		if (dash_timer >= DASH_TIME)
 		{
 			is_dashing = false;
-			x_speed = DEFAULT_X_SPEED;
 			dash_timer = 0;
+			if (has_powerup == false)
+			{
+				x_speed = DEFAULT_X_SPEED;
+			}
 		}
 
 	}
 
-	update_y_movement(grounds);
+	if (has_powerup == true)
+	{
+		++power_timer;
 
+		// We dont want to change the speed if we are dashing.
+		if (is_dashing == false)
+		{
+			x_speed = (DEFAULT_X_SPEED + POWER_SPEED);
+		}
+
+		if (power_timer > POWER_TIME)
+		{
+			has_powerup = false;
+			power_timer = 0;
+
+			if (is_dashing == false)
+			{
+				x_speed = DEFAULT_X_SPEED;
+			}
+		}
+	}
+
+	update_y_movement(grounds);
 
 }
 
@@ -77,6 +101,7 @@ void Player::handle_collisions(std::vector<Enemy*>& enemies, Button* const& butt
 			{
 				delete enemies[i];
 				enemies.erase(enemies.begin() + i);
+				has_powerup = true;
 			}
 		}
 		else if (bullet != nullptr)
@@ -217,6 +242,8 @@ void Player::jump()
 	{
 		grounded = false;
 		y_speed = DEFAULT_Y_SPEED;
+		Audio::play_effect("jump");
+
 	}
 }
 
@@ -227,6 +254,7 @@ void Player::dash()
 	{
 		x_speed = DASH_SPEED;
 		is_dashing = true;
+		Audio::play_effect("dash");
 		if (!grounded)
 		{
 			can_dash = false;

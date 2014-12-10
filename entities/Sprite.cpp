@@ -4,10 +4,7 @@
  *  Created on: 24 nov 2014
  *      Author: tomli962
  */
-#include <iostream>
 #include "Sprite.h"
-#include "Player.h"
-#include <SDL2/SDL.h>
 
 Sprite::Sprite(int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture) : texture(in_texture)
 	{

@@ -24,7 +24,7 @@ class Level {
 public:
 	Level(SDL_Renderer& renderer, int level_to_load, Abstract_Gamestate::Gamestate & CurrentState) :
 		screen_width(640), screen_height(480), renderer(renderer), camera{0,0, screen_width, screen_height}, player{nullptr},
-		button{nullptr}, game_paused{false}, menu_opened{false},
+		button{nullptr}, CAMERA_MAX_SPEED(4), CAMERA_SPEEDUP_TIMER(900), game_paused{false}, menu_opened{false},
 		selected_button{0}, current_level{level_to_load}, level_cleared{false}, CurrentState(CurrentState) {}
 	virtual ~Level();
 
@@ -48,7 +48,9 @@ public:
 	int get_current_level() { return current_level; }
 	bool get_level_cleared() { return level_cleared; }
 
-	void death_message();
+	void display_message(std::string message, SDL_Rect display_pos);
+
+	void update_camera_speed();
 
 private:
 	int screen_width;
@@ -64,8 +66,10 @@ private:
 	std::map<std::string, SDL_Rect> button_rects;
 	Button* button;
 
-	double camera_speed {2};
-	double camera_counter{0};
+	const int CAMERA_MAX_SPEED;
+	const int CAMERA_SPEEDUP_TIMER;
+	int camera_speed {1};
+	int camera_counter{0};
 
 	bool game_paused;
 	bool menu_opened;

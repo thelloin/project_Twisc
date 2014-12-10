@@ -16,6 +16,7 @@
 #include "Abstract_Gamestate.h"
 #include "Menu.h"
 #include "Play_Screen.h"
+#include "Audio.h"
 
 using namespace std;
 
@@ -29,7 +30,6 @@ void run_game(Abstract_Gamestate* game, SDL_Renderer*& renderer);
 void destroy_game(SDL_Window*& window, SDL_Renderer*& renderer, Mix_Music* music, Abstract_Gamestate* game);
 
 int main(int argc, char* argv[]) {
-
 
 	SDL_Window* window;
 	SDL_Renderer* renderer;
@@ -107,12 +107,12 @@ void destroy_game(SDL_Window*& window, SDL_Renderer*& renderer, Mix_Music* music
 	game = nullptr;
 	renderer = nullptr;
 	window = nullptr;
+	Audio::destroy_sound();
 	SDL_Quit();
 }
 
 void load_music(Mix_Music*& music)
 {
-	music = Mix_LoadMUS( "audio/background_music.mp3" );
-	Mix_PlayMusic(music, -1);
+	Audio::initialize();
 }
 

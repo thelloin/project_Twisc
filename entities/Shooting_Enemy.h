@@ -13,13 +13,14 @@
 
 #include "Enemy.h"
 #include "Bullet.h"
+#include "../Audio.h"
 
 class Shooting_Enemy : public Enemy {
 public:
 	Shooting_Enemy(int width, int height, int x_pos, int y_pos,
 			SDL_Texture& in_texture, std::vector<Enemy*> & enemies, SDL_Texture& bullet_texture) :
 					Enemy(width, height, x_pos, y_pos,in_texture),
-					SHOOT_COOLDOWN(180), cooldown_timer(0), enemies(enemies), bullet_texture(bullet_texture) {}
+					SHOOT_COOLDOWN(180), cooldown_timer(SHOOT_COOLDOWN), enemies(enemies), bullet_texture(bullet_texture) {}
 	virtual ~Shooting_Enemy();
 
 	void update_movement();

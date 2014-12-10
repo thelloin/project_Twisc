@@ -4,13 +4,10 @@
  *  Created on: 2 dec 2014
  *      Author: tomli962
  */
-#include <iostream>
 
 #include "Bullet.h"
 
-Bullet::~Bullet() {
-	// TODO Auto-generated destructor stub
-}
+Bullet::~Bullet() {}
 
 void Bullet::update_movement()
 {

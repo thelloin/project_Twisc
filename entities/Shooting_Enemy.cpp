@@ -26,6 +26,7 @@ void Shooting_Enemy::shoot()
 	{
 		enemies.push_back(new Bullet(10, 10, obj_rect.x, (obj_rect.y + obj_rect.w/2), bullet_texture));
 		cooldown_timer = 0;
+		Audio::play_effect("shoot");
 	}
 	++cooldown_timer;
 }

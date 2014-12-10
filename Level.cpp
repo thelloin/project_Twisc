@@ -102,12 +102,27 @@ void Level::load_from_file()
 
 void Level::initialize_level()
 {
+
+
+	// Loads the game_beaten-message
+	SDL_Surface* temp = IMG_Load("textures/game_beaten_message.png");
+	textures["game_beaten_message"] = SDL_CreateTextureFromSurface(&renderer,temp);
+	SDL_FreeSurface(temp);
+
+
+	//Draw the Winningscreen and go back to the menu
 	if (current_level == 4)
 	{
+		SDL_RenderClear(&renderer);
+		SDL_SetRenderDrawColor(&renderer, 0, 0, 0, 255);
+		SDL_Rect temp_rect = {320 - 150,180,300,100};
+		display_message("game_beaten_message", temp_rect);
+		SDL_Delay(2000);
 		CurrentState = Abstract_Gamestate::Menu;
 		return;
 	}
-	SDL_Surface* temp = IMG_Load("textures/wall.png");
+
+	temp = IMG_Load("textures/wall.png");
 	textures["ground"] = SDL_CreateTextureFromSurface(&renderer, temp);
 	SDL_FreeSurface(temp);
 
@@ -153,6 +168,23 @@ void Level::initialize_level()
 							*textures["wall_of_death"], camera_speed));
 	SDL_FreeSurface(temp);
 
+	// Loads the death-message
+	temp = IMG_Load("textures/die_message.png");
+	textures["die_message"] = SDL_CreateTextureFromSurface(&renderer,temp);
+	SDL_FreeSurface(temp);
+
+	// Loads the level_cleared-message
+	temp = IMG_Load("textures/level_cleared_message.png");
+	textures["level_cleared_message"] = SDL_CreateTextureFromSurface(&renderer,temp);
+	SDL_FreeSurface(temp);
+
+	// Loads the powerup-message
+	temp = IMG_Load("textures/powerup_message.png");
+	textures["powerup_message"] = SDL_CreateTextureFromSurface(&renderer,temp);
+	SDL_FreeSurface(temp);
+
+
+
 }
 
 
@@ -191,6 +223,12 @@ void Level::draw_level(SDL_Renderer& renderer)
 
 		SDL_RenderPresent(&renderer);
 	}
+
+	if (player->get_has_powerup() == true)
+	{
+		SDL_Rect temp_rect{320 - 150, 20, 300, 100};
+		display_message("powerup_message", temp_rect);
+	}
 }
 
 void Level::update_level()
@@ -203,7 +241,10 @@ void Level::update_level()
 
 		for (unsigned int i{0}; i < enemies.size(); ++i)
 		{
-			enemies[i]->update_movement();
+			if (enemies[i]->is_within_screen(camera))
+			{
+				enemies[i]->update_movement();
+			}
 			Bullet* bullet = dynamic_cast<Bullet*>(enemies[i]);
 			if (bullet != nullptr && bullet->is_destroyed())
 			{
@@ -214,8 +255,8 @@ void Level::update_level()
 
 		level_cleared = player->button_pushed(button);
 		update_camera();
+		update_camera_speed();
 	}
-
 }
 
 Player*& Level::get_player()
@@ -297,12 +338,29 @@ void Level::execute_selection()
 	}
 }
 
-void Level::death_message()
+void Level::display_message(std::string message, SDL_Rect display_pos)
 {
-	//Tells the player about his/her death
-	SDL_Rect a = {0,0,100,100};
-	SDL_RenderCopy(&renderer, textures["player"], nullptr , &a);
+	//Display a message to the screen
+	SDL_RenderCopy(&renderer, textures[message], nullptr , &display_pos);
 	SDL_RenderPresent(&renderer);
+}
+
+void Level::update_camera_speed()
+{
+	++camera_counter;
+	if (camera_counter >= CAMERA_SPEEDUP_TIMER && camera_speed < CAMERA_MAX_SPEED)
+	{
+		++camera_speed;
+		camera_counter = 0;
+		for (Enemy* enemy: enemies)
+		{
+			Wall_Of_Death* wall_of_death = dynamic_cast<Wall_Of_Death*>(enemy);
+			if (wall_of_death != nullptr)
+			{
+				wall_of_death->set_wall_speed(camera_speed);
+			}
+		}
+	}
 }
 
 
