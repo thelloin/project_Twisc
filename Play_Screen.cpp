@@ -41,8 +41,6 @@ Abstract_Gamestate::Gamestate Play_Screen::run_screen(SDL_Renderer& renderer)
 }
 
 void Play_Screen::initialize(SDL_Renderer& renderer) {
-	//menu_test { nullptr };
-	//this->renderer = renderer;
 	level = new Level(renderer, level_to_load, Currentstate);
 	level->initialize_level();
 }
