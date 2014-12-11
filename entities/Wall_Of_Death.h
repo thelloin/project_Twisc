@@ -20,13 +20,13 @@ public:
 	virtual ~Wall_Of_Death();
 
 	void update_movement();
-	void update_animation();
-
 	void draw_texture(SDL_Renderer& renderer, double camera_speed, int camera_y_pos);
 
 	void set_wall_speed(int new_speed);
 
 private:
+	void update_animation();
+
 	int wall_speed;
 
 	const int ANIMATION_FPS;

@@ -223,7 +223,6 @@ void Level::update_level()
 	if (game_paused == false)
 	{
 		player->handle_collisions(enemies, button);
-
 		player->update_movement(grounds);
 
 		for (unsigned int i{0}; i < enemies.size(); ++i)
@@ -244,11 +243,6 @@ void Level::update_level()
 		update_camera();
 		update_camera_speed();
 	}
-}
-
-Player*& Level::get_player()
-{
-	return player;
 }
 
 void Level::update_camera()

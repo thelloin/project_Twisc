@@ -20,8 +20,6 @@ public:
 	virtual void update_movement() = 0;
 
 	bool is_within_screen(SDL_Rect& camera_position) const;
-
-
 };
 
 #endif /* ENTITIES_ENEMY_H_ */

@@ -12,7 +12,6 @@
 
 class Sprite {
 public:
-	Sprite(int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture);
 	virtual ~Sprite();
 
 	SDL_Rect& get_rect() {return obj_rect;}
@@ -20,8 +19,9 @@ public:
 	virtual void draw_texture(SDL_Renderer& renderer, double camera_speed, int camera_y_pos);
 
 protected:
-	SDL_Rect obj_rect;
+	Sprite(int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture);
 
+	SDL_Rect obj_rect;
 	SDL_Texture& texture;
 };
 

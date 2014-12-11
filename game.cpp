@@ -19,13 +19,9 @@
 
 using namespace std;
 
-// Load the music
 void load_music();
-
 void init_game(SDL_Window*& window, SDL_Renderer*& renderer);
-
 void run_game(Abstract_Gamestate* game, SDL_Renderer*& renderer);
-
 void destroy_game(SDL_Window*& window, SDL_Renderer*& renderer, Abstract_Gamestate* game);
 
 int main(int argc, char* argv[]) {

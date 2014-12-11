@@ -18,14 +18,14 @@ public:
 	virtual ~Lava();
 
 	void update_movement();
-	void update_animation();
-
 	void draw_texture(SDL_Renderer& renderer, double camera_speed, int camera_y_pos);
 
 private:
 	const int ANIMATION_FPS;
 	int animation_counter;
 	SDL_Rect frame_rect;
+
+	void update_animation();
 };
 
 #endif /* ENTITIES_LAVA_H_ */
