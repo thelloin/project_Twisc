@@ -13,8 +13,8 @@
 class Lava : public Enemy{
 public:
 	Lava(int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture) :
-						Enemy(width, height, x_pos, y_pos,in_texture), ANIMATION_FPS(30),
-						animation_counter(0), frame_rect{0,0,16,16} {}
+						Enemy(width, height, x_pos, y_pos,in_texture), ANIMATION_FPS{30},
+						animation_counter{0}, frame_rect{0,0,16,16} {}
 	virtual ~Lava();
 
 	void update_movement();

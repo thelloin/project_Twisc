@@ -15,7 +15,7 @@
 
 class Menu : public Abstract_Gamestate{
 public:
-	Menu() : selected_button(0) {}
+	Menu() : selected_button{0} {}
 	virtual ~Menu();
 
 	Abstract_Gamestate::Gamestate run_screen(SDL_Renderer& renderer);

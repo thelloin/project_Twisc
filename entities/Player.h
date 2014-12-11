@@ -23,11 +23,11 @@ class Player : public Sprite
 public:
 	Player(int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture) :
 			Sprite(width, height, x_pos, y_pos,in_texture),
-			GRAVITY{0.25}, DEFAULT_Y_SPEED(-9), DEFAULT_X_SPEED(3), grounded(true), is_dashing(false),
-			can_dash(true), DASH_TIME(7), dash_timer(0), DASH_SPEED(20 ), y_speed(0),
-			x_speed(DEFAULT_X_SPEED), has_powerup(false),POWER_SPEED(6), POWER_TIME(240),
-			power_timer(0),current_direction(NONE), facing_direction(RIGHT), ANIMATION_FPS(7),
-			animation_counter(0), FRAME_LENGTH(18), FRAME_HEIGHT(33),  frame_rect{0,0,18,33} {}
+			GRAVITY{0.25}, DEFAULT_Y_SPEED{-9}, DEFAULT_X_SPEED{3}, grounded{true}, is_dashing{false},
+			can_dash{true}, DASH_TIME{7}, dash_timer{0}, DASH_SPEED{20}, y_speed{0},
+			x_speed{DEFAULT_X_SPEED}, has_powerup{false}, POWER_SPEED{6}, POWER_TIME{240},
+			power_timer{0},current_direction{NONE}, facing_direction{RIGHT}, ANIMATION_FPS{7},
+			animation_counter{0}, FRAME_LENGTH{18}, FRAME_HEIGHT{33},  frame_rect{0,0,18,33} {}
 	virtual ~Player();
 
 

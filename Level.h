@@ -28,9 +28,9 @@
 class Level {
 public:
 	Level(SDL_Renderer& renderer, int level_to_load, Abstract_Gamestate::Gamestate & CurrentState) :
-		screen_width(640), screen_height(480), renderer(renderer), camera{0,0, screen_width, screen_height}, player{nullptr},
-		button{nullptr}, CAMERA_MAX_SPEED(4), CAMERA_SPEEDUP_TIMER(900), game_paused{false}, menu_opened{false},
-		selected_button{0}, current_level{level_to_load}, level_cleared{false}, CurrentState(CurrentState) {}
+		screen_width{640}, screen_height{480}, renderer(renderer), camera{0,0, screen_width, screen_height}, player{nullptr},
+		button{nullptr}, CAMERA_MAX_SPEED{4}, CAMERA_SPEEDUP_TIMER{900}, game_paused{false}, menu_opened{false},
+		selected_button{0}, current_level{level_to_load}, level_cleared{false}, CurrentState{CurrentState} {}
 	virtual ~Level();
 
 	void initialize_level();
