@@ -23,15 +23,21 @@ Level::~Level() {
 	SDL_DestroyTexture(textures["shooting_enemy"]);
 	SDL_DestroyTexture(textures["button"]);
 
+
+
+
 	delete player;
+	delete button;
 
 	for (unsigned int i{0}; i < grounds.size(); i++)
 	{
 		delete grounds[i];
+		grounds[i] = nullptr;
 	}
 	for (unsigned int i{0}; i < enemies.size(); i++)
 	{
 		delete enemies[i];
+		enemies[i] = nullptr;
 	}
 }
 

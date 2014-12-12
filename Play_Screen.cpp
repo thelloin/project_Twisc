@@ -11,6 +11,7 @@ Play_Screen::~Play_Screen()
 {
 
 	delete level;
+	level = nullptr;
 }
 
 Abstract_Gamestate::Gamestate Play_Screen::run_screen(SDL_Renderer& renderer)
