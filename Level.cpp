@@ -6,10 +6,7 @@
  */
 #include "Level.h"
 #include "iostream"
-/*Level::Level() {
-	// TODO Auto-generated constructor stub
 
-}*/
 
 Level::~Level() {
 	SDL_DestroyTexture(textures["ground"]);
