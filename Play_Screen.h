@@ -12,8 +12,6 @@
 
 #include "Abstract_Gamestate.h"
 #include "Level.h"
-#include "Audio.h"
-#include "entities/Player.h"
 
 class Play_Screen : public Abstract_Gamestate {
 public:

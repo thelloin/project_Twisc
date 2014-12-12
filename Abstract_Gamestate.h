@@ -8,7 +8,6 @@
 #ifndef ABSTRACT_GAMESTATE_H_
 #define ABSTRACT_GAMESTATE_H_
 
-#include <string>
 #include <SDL2/SDL.h>
 
 class Abstract_Gamestate {

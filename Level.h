@@ -34,30 +34,29 @@ public:
 	virtual ~Level();
 
 	void initialize_level();
-
 	void update_level();
-	void update_camera();
-
 	void draw_level(SDL_Renderer& renderer);
-	void load_from_file();
 
 	void game_menu();
-
-	Player*& get_player();
 
 	void pause_game();
 
 	void change_selection(int change);
 	void execute_selection();
 
-	int get_current_level() const { return current_level; }
-	bool get_level_cleared() const { return level_cleared; }
-
 	void display_message(std::string message, SDL_Rect display_pos);
 
-	void update_camera_speed();
+	int get_current_level() const { return current_level; }
+	bool get_level_cleared() const { return level_cleared; }
+	Player*& get_player() { return player; }
+
 
 private:
+	void update_camera();
+	void update_camera_speed();
+
+	void load_from_file();
+
 	int screen_width;
 	int screen_height;
 

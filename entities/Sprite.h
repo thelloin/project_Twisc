@@ -12,7 +12,6 @@
 
 class Sprite {
 public:
-
 	virtual ~Sprite();
 
 	SDL_Rect& get_rect() { return obj_rect; }
