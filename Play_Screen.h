@@ -13,18 +13,19 @@
 #include "Abstract_Gamestate.h"
 #include "Level.h"
 
-class Play_Screen : public Abstract_Gamestate {
+class Play_Screen : public Abstract_Gamestate
+{
 public:
-	Play_Screen(SDL_Renderer& renderer) : level{nullptr}, level_to_load{1}, MAX_LEVEL{4}, renderer(renderer) {}
+	Play_Screen( SDL_Renderer& renderer ) : level{nullptr}, level_to_load{1}, MAX_LEVEL{4}, renderer(renderer) {}
 	virtual ~Play_Screen();
 
-	Abstract_Gamestate::Gamestate run_screen(SDL_Renderer& renderer);
+	Abstract_Gamestate::Gamestate run_screen( SDL_Renderer& renderer );
 
 protected:
-	void initialize(SDL_Renderer& renderer);
+	void initialize( SDL_Renderer& renderer );
 	void handle_input();
 	void updateAll();
-	void drawAll(SDL_Renderer& renderer);
+	void drawAll( SDL_Renderer& renderer );
 
 
 private:

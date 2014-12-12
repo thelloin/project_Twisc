@@ -15,11 +15,12 @@
 #include "Bullet.h"
 #include "../Audio.h"
 
-class Shooting_Enemy : public Enemy {
+class Shooting_Enemy : public Enemy
+{
 public:
-	Shooting_Enemy(int width, int height, int x_pos, int y_pos,
-			SDL_Texture& in_texture, std::vector<Enemy*> & enemies, SDL_Texture& bullet_texture) :
-					Enemy(width, height, x_pos, y_pos,in_texture), SHOOT_COOLDOWN{180},
+	Shooting_Enemy( int width, int height, int x_pos, int y_pos,
+			SDL_Texture& in_texture, std::vector<Enemy*> & enemies, SDL_Texture& bullet_texture ) :
+					Enemy( width, height, x_pos, y_pos,in_texture ), SHOOT_COOLDOWN{180},
 					cooldown_timer{SHOOT_COOLDOWN}, enemies(enemies), bullet_texture(bullet_texture), counter{0} {}
 	virtual ~Shooting_Enemy();
 
@@ -30,6 +31,7 @@ public:
 private:
 	const int SHOOT_COOLDOWN;
 	int cooldown_timer;
+
 	std::vector<Enemy*>& enemies;
 	SDL_Texture& bullet_texture;
 

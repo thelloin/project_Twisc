@@ -25,9 +25,10 @@
 #include "entities/Shooting_Enemy.h"
 #include "entities/Lava.h"
 
-class Level {
+class Level
+{
 public:
-	Level(SDL_Renderer& renderer, int level_to_load, Abstract_Gamestate::Gamestate & CurrentState) :
+	Level( SDL_Renderer& renderer, int level_to_load, Abstract_Gamestate::Gamestate & CurrentState ) :
 		screen_width{640}, screen_height{480}, renderer(renderer), camera{0,0, screen_width, screen_height}, player{nullptr},
 		button{nullptr}, CAMERA_MAX_SPEED{4}, CAMERA_SPEEDUP_TIMER{900}, game_paused{false}, menu_opened{false},
 		selected_button{0}, current_level{level_to_load}, level_cleared{false}, CurrentState{CurrentState} {}
@@ -35,16 +36,16 @@ public:
 
 	void initialize_level();
 	void update_level();
-	void draw_level(SDL_Renderer& renderer);
+	void draw_level( SDL_Renderer& renderer );
 
 	void game_menu();
 
 	void pause_game();
 
-	void change_selection(int change);
+	void change_selection( int change );
 	void execute_selection();
 
-	void display_message(std::string message, SDL_Rect display_pos);
+	void display_message( std::string message, SDL_Rect display_pos );
 
 	int get_current_level() const { return current_level; }
 	bool get_level_cleared() const { return level_cleared; }

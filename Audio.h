@@ -12,12 +12,13 @@
 
 #include <map>
 
-class Audio {
+class Audio
+{
 public:
 	Audio();
 	virtual ~Audio();
 
-	static void play_effect(std::string effect_name);
+	static void play_effect( std::string effect_name );
 
 	static void initialize();
 	static void destroy_sound();

@@ -12,10 +12,12 @@
 
 #include "Sprite.h"
 
-class Button : public Sprite {
+class Button : public Sprite
+{
 public:
-	Button(int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture) :
-			Sprite(width, height, x_pos, y_pos,in_texture) {}
+	Button( int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture ) :
+			Sprite( width, height, x_pos, y_pos,in_texture ) {}
+
 	virtual ~Button(){};
 };
 

@@ -10,13 +10,11 @@ std::map<std::string ,Mix_Chunk*> Audio::audio_track;
 Mix_Music* Audio::music;
 
 
-Audio::Audio() {
-
-}
+Audio::Audio() {}
 
 Audio::~Audio() {}
 
-
+/// Initialises the Audio class. Loads all sound effects and music.
 void Audio::initialize()
 {
 	// Load the sound effects
@@ -37,23 +35,27 @@ void Audio::initialize()
 
 	// Load and start the background music
 	music = Mix_LoadMUS( "audio/background_music.mp3" );
-	Mix_PlayMusic(music, -1);
+	Mix_PlayMusic( music, -1 );
 
 }
 
-
-void Audio::play_effect(std::string effect_name)
+/// Play a sound effect
+void Audio::play_effect( std::string effect_name )
 {
 	Mix_PlayChannel( -1, audio_track[effect_name], 0 );
 }
 
+/// Removes all sounds and unallocates its memory.
 void Audio::destroy_sound()
 {
-	//Free the sound effects
-	Mix_FreeChunk( audio_track["shoot"] );
-	Mix_FreeChunk( audio_track["jump"] );
-	Mix_FreeChunk( audio_track["dash"] );
-	Mix_FreeChunk( audio_track["death"] );
-	Mix_FreeChunk( audio_track["level_cleared"] );
-	Mix_FreeMusic(music);
+
+	for ( std::pair <std::string, Mix_Chunk*> effect: audio_track )
+		{
+			Mix_FreeChunk( effect.second );
+			effect.second = nullptr;
+		}
+
+	Mix_FreeMusic( music );
+	music = nullptr;
+
 }

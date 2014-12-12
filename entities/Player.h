@@ -9,6 +9,7 @@
 #define ENTITIES_PLAYER_H_
 
 #include <SDL2/SDL.h>
+
 #include <vector>
 
 #include "Sprite.h"
@@ -21,8 +22,8 @@
 class Player : public Sprite
 {
 public:
-	Player(int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture) :
-			Sprite(width, height, x_pos, y_pos,in_texture),
+	Player( int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture ) :
+			Sprite( width, height, x_pos, y_pos,in_texture ),
 			GRAVITY{0.25}, DEFAULT_Y_SPEED{-9}, DEFAULT_X_SPEED{3}, grounded{true}, is_dashing{false},
 			can_dash{true}, DASH_TIME{7}, dash_timer{0}, DASH_SPEED{20}, y_speed{0},
 			x_speed{DEFAULT_X_SPEED}, has_powerup{false}, POWER_SPEED{6}, POWER_TIME{240},
@@ -34,16 +35,16 @@ public:
 	void jump();
 	void dash();
 
-	enum Direction{LEFT, RIGHT, NONE};
-	void set_direction(Direction dir);
+	enum Direction{ LEFT, RIGHT, NONE };
+	void set_direction( Direction dir );
 
-	void update_movement(std::vector<Ground*> const& grounds);
-	void handle_collisions(std::vector<Enemy*>& enemies,  Button* const& button);
+	void update_movement( std::vector<Ground*> const& grounds );
+	void handle_collisions( std::vector<Enemy*>& enemies,  Button* const& button );
 
 
-	bool button_pushed(Button* const& button) const;
+	bool button_pushed( Button* const& button ) const;
 
-	void draw_texture(SDL_Renderer& renderer, double camera_speed, int camera_y_pos);
+	void draw_texture( SDL_Renderer& renderer, double camera_speed, int camera_y_pos );
 
 	bool get_dead_status() const { return is_dead; }
 	bool get_has_powerup() const { return has_powerup; }
@@ -51,12 +52,12 @@ public:
 private:
 	void update_animation();
 
-	bool intersect(Sprite* const& sprite, int pos_change) const;
-	bool check_x_collision(std::vector<Ground*> const& grounds, int pos_change);
+	bool intersect( Sprite* const& sprite, int pos_change ) const;
+	bool check_x_collision( std::vector<Ground*> const& grounds, int pos_change );
 
-	bool check_y_top_collision(Ground* const& ground, SDL_Rect new_pos) const;
-	bool check_y_bottom_collision(Ground* const& ground, SDL_Rect new_pos) const;
-	void update_y_movement(std::vector<Ground*> const& grounds);
+	bool check_y_top_collision( Ground* const& ground, SDL_Rect new_pos ) const;
+	bool check_y_bottom_collision( Ground* const& ground, SDL_Rect new_pos ) const;
+	void update_y_movement( std::vector<Ground*> const& grounds );
 
 	const double GRAVITY;
 	const int DEFAULT_Y_SPEED;

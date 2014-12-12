@@ -13,8 +13,8 @@
 class Bullet : public Enemy
 {
 public:
-	Bullet(int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture) :
-						Enemy(width, height, x_pos, y_pos,in_texture), BULLET_SPEED{-2}, LIFETIME{240},
+	Bullet( int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture ) :
+						Enemy( width, height, x_pos, y_pos,in_texture ), BULLET_SPEED{-2}, LIFETIME{240},
 						life_counter{0}, destroyed{false} {}
 	virtual ~Bullet();
 

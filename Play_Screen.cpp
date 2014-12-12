@@ -7,65 +7,67 @@
 
 #include "Play_Screen.h"
 
+/// Deallocates the resources used
 Play_Screen::~Play_Screen()
 {
-
 	delete level;
 	level = nullptr;
 }
 
-Abstract_Gamestate::Gamestate Play_Screen::run_screen(SDL_Renderer& renderer)
+/// Enters the main-loop of the Play_Screen
+Abstract_Gamestate::Gamestate Play_Screen::run_screen( SDL_Renderer& renderer )
 {
 	Currentstate = Gamestate::Playstate;
-	Play_Screen::initialize(renderer);
+	Play_Screen::initialize( renderer );
 	const int ticksPerFrame = 1000 / 60;
 
-	while (Currentstate == Gamestate::Playstate) {
+	while ( Currentstate == Gamestate::Playstate ) {
 
 		Uint32 ticksAtLoopStart = SDL_GetTicks();
 
 		Play_Screen::handle_input();
 		Play_Screen::updateAll();
 
-		if (level_to_load < MAX_LEVEL)
+		if ( level_to_load < MAX_LEVEL )
 		{
-			Play_Screen::drawAll(renderer);
+			Play_Screen::drawAll( renderer );
 		}
 
-		int time_to_wait = ticksPerFrame - (SDL_GetTicks() - ticksAtLoopStart);
-		if (time_to_wait > 0)
+		int time_to_wait = ticksPerFrame - ( SDL_GetTicks() - ticksAtLoopStart );
+		if ( time_to_wait > 0 )
 		{
-			SDL_Delay(time_to_wait);
+			SDL_Delay( time_to_wait );
 		}
 	}
 	return Currentstate;
 }
 
-void Play_Screen::initialize(SDL_Renderer& renderer)
+/// Initializes the play screen
+void Play_Screen::initialize( SDL_Renderer& renderer )
 {
-	level = new Level(renderer, level_to_load, Currentstate);
+	level = new Level( renderer, level_to_load, Currentstate );
 	level->initialize_level();
 }
 
-
+/// Handle the input
 void Play_Screen::handle_input() {
 	SDL_Event event;
-	while (SDL_PollEvent(&event)) {
+	while ( SDL_PollEvent(&event) ) {
 		const Uint8* currentKeyStates = SDL_GetKeyboardState( NULL );
 
-		switch (event.type)
+		switch ( event.type )
 		{
 		case SDL_QUIT:
 			Currentstate = Gamestate::Exit;
 			break;
 		case SDL_KEYDOWN:
-			switch (event.key.keysym.sym)
+			switch ( event.key.keysym.sym )
 			{
 			case SDLK_a:
-				(level->get_player())->set_direction(Player::LEFT);
+				(level->get_player())->set_direction( Player::LEFT );
 				break;
 			case SDLK_d:
-				(level->get_player())->set_direction(Player::RIGHT);
+				(level->get_player())->set_direction( Player::RIGHT );
 				break;
 			case SDLK_w:
 				(level->get_player())->jump();
@@ -91,18 +93,18 @@ void Play_Screen::handle_input() {
 			}
 			break;
 		case SDL_KEYUP:
-			switch (event.key.keysym.sym)
+			switch ( event.key.keysym.sym )
 			{
 			case SDLK_a:
-				if (!currentKeyStates[ SDL_SCANCODE_D])
+				if ( !currentKeyStates[ SDL_SCANCODE_D] )
 				{
-					(level->get_player())->set_direction(Player::NONE);
+					(level->get_player())->set_direction( Player::NONE );
 				}
 				break;
 			case SDLK_d:
 				if (!currentKeyStates[ SDL_SCANCODE_A])
 				{
-				(level->get_player())->set_direction(Player::NONE);
+				(level->get_player())->set_direction( Player::NONE );
 				}
 				break;
 			}
@@ -110,42 +112,48 @@ void Play_Screen::handle_input() {
 	}
 }
 
+/// Updates the level, and checks if the level is cleared and if the player is dead
 void Play_Screen::updateAll()
 {
 	level->update_level();
 
 	// Check if the player has died
-	if (level->get_player()->get_dead_status())
+	if ( level->get_player()->get_dead_status() )
 	{
-		Audio::play_effect("death");
-		SDL_Rect temp_rect = {320 - 150,180,300,100};
-		level->display_message("die_message", temp_rect);
-		SDL_Delay(2000);
+		Audio::play_effect( "death" );
+		SDL_Rect temp_rect = { (320 - 150), 180, 300, 100};
+		level->display_message( "die_message", temp_rect );
+		SDL_Delay( 2000 );
 		restart_level();
 	}
-	if (level->get_level_cleared())
+	if ( level->get_level_cleared() )
 	{
-		Audio::play_effect("level_cleared");
-		SDL_Rect temp_rect = {320 - 150,180,300,100};
-		level->display_message("level_cleared_message", temp_rect);
-		SDL_Delay(2000);
+		Audio::play_effect( "level_cleared" );
+		SDL_Rect temp_rect = { (320 - 150), 180, 300, 100};
+		level->display_message( "level_cleared_message", temp_rect );
+		SDL_Delay( 2000 );
 		next_level();
 	}
 }
 
-void Play_Screen::drawAll(SDL_Renderer& renderer) {
-	level->draw_level(renderer);
+/// Draw the level to the screen
+void Play_Screen::drawAll( SDL_Renderer& renderer ) {
+	level->draw_level( renderer );
 }
 
+/// Restarts the level
 void Play_Screen::restart_level()
 {
 	delete level;
+	level = nullptr;
 	initialize(renderer);
 }
 
+/// Loads the next level
 void Play_Screen::next_level()
 {
 	delete level;
+	level = nullptr;
 	++level_to_load;
 	initialize(renderer);
 }
