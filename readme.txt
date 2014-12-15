@@ -1,4 +1,15 @@
-*******************Requirements************************
+*******************Player controls**********************
+A and D: Walk left or right
+W : Jump
+Space(while walking): Use the ability "Dash", kills enemies and bullets.
+	You die if you dash into walls, use it wisely.
+P : Paus the game
+ESC : Paus and open paus menu
+Up and Down arrow : Move in menu
+Enter : Execute selection in menu
+
+
+*******************Requirements***********************
 Make sure you have following installed on your system.
 -libsdl2-dev
 -libsdl2-image-dev
@@ -8,9 +19,33 @@ Make sure you have following installed on your system.
 1: Clone from git repository type in :
 git clone git@gitlab.ida.liu.se:eried975/twisc.git
 
-2: To build the game : 
+2: 
+ To compile using make in terminal.
+ 	Go into the twisc folder and type the following command: make
+ 		The game should now be compiled. 
+ To clean the folder(Only do this if you want to remove all .o files).
+ 	Go into the twisc folder and tyoe the following command: make clean
 
-*******************Disclaimers************************
+ To compile the game using Eclipse:
+  First Step:
+  	 Project -> Properties -> c/c++ Build -> Settings -> GCC C++ Compiler -> Dialect
+  	 Change the language standard to ISO C++11.
+  
+  Second Step:
+   	Project -> Properties -> c/c++ Build -> Settings -> GCC C++ Linker -> Libraries
+   	Click the "+" button(add) to add the following libraries
+   		*SDL2
+   		*SDL2_image
+   		*SDL2_mixer
+   	
+  Third Step:
+  	Project -> Properties -> c/c++ Build
+  		Make sure that "Generate makefile automaticly" is checked.
+   	
+  Now you should be able to compile and run the game.
+
+
+********************Disclaimers************************
 
 Background music created by TeknoAXE: http://teknoaxe.com/Link_Code_2.php?q=696
 
