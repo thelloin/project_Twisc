@@ -25,6 +25,8 @@
 #include "entities/Shooting_Enemy.h"
 #include "entities/Lava.h"
 
+/// This class represents a level, initializing it will load a level from a file.
+/// Has functions to update the level and render the level.
 class Level
 {
 public:

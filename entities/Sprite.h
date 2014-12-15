@@ -10,6 +10,7 @@
 
 #include <SDL2/SDL.h>
 
+/// This is the baseclass for all objects that is to be rendered
 class Sprite
 {
 public:

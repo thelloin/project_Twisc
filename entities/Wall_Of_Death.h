@@ -12,6 +12,7 @@
 #include <SDL2/SDL.h>
 
 
+/// Represents the wall of death, inherits from Enemy
 class Wall_Of_Death : public Enemy
 {
 public:

@@ -12,6 +12,7 @@
 
 #include "Sprite.h"
 
+/// Represents a button, inherits from sprite
 class Button : public Sprite
 {
 public:

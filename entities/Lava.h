@@ -10,6 +10,7 @@
 
 #include "Enemy.h"
 
+/// Represents a lava object, inherits from Enemy
 class Lava : public Enemy{
 public:
 	Lava( int width, int height, int x_pos, int y_pos, SDL_Texture& in_texture ) :

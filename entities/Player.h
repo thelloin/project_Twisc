@@ -19,6 +19,7 @@
 #include "Bullet.h"
 #include "Button.h"
 
+/// Represents the player, inherits from Sprite
 class Player : public Sprite
 {
 public:

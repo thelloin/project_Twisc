@@ -15,6 +15,8 @@
 #include "Bullet.h"
 #include "../Audio.h"
 
+
+/// Represents a shooting enemy, inherits from Enemy
 class Shooting_Enemy : public Enemy
 {
 public:

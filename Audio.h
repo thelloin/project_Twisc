@@ -12,6 +12,7 @@
 
 #include <map>
 
+/// This class contains static functions to initialize, play and destroy game audio.
 class Audio
 {
 public:

@@ -10,6 +10,7 @@
 
 #include <SDL2/SDL.h>
 
+/// This is the baseclass for all different game states
 class Abstract_Gamestate
 {
 public:

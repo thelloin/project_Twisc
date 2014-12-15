@@ -13,6 +13,8 @@
 #include "Abstract_Gamestate.h"
 #include "Level.h"
 
+/// Initializes the state by creating a level from the Level class.
+/// handles input, updates game and renders game.
 class Play_Screen : public Abstract_Gamestate
 {
 public:

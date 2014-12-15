@@ -10,6 +10,7 @@
 
 #include "Sprite.h"
 
+/// Baseclass for all objects that should kill the player, inherits from sprite
 class Enemy : public Sprite
 {
 public:

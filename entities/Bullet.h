@@ -10,6 +10,7 @@
 
 #include "Enemy.h"
 
+/// Represents a bullet, inherits from Enemy
 class Bullet : public Enemy
 {
 public:

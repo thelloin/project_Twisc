@@ -13,6 +13,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+/// Represents the menu gamestate. Initializes, handles input, updates and draws the state.
 class Menu : public Abstract_Gamestate
 {
 public:

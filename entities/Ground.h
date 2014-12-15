@@ -12,6 +12,8 @@
 
 #include "Sprite.h"
 
+
+/// Represents a ground object, inherits from sprite
 class Ground : public Sprite
 {
 public:
