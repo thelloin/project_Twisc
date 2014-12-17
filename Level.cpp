@@ -89,7 +89,7 @@ void Level::initialize_level()
 
 
 	//Draw the Winningscreen and go back to the menu
-	if ( current_level == 4 )
+	if ( current_level == 5 )
 	{
 		SDL_RenderClear(&renderer);
 		SDL_SetRenderDrawColor(&renderer, 0, 0, 0, 255);
