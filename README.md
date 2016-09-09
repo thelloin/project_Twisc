@@ -32,14 +32,14 @@ The game should now be compiled.
 3. Start the game by typing: `./Twisc`
 
 To start the game using Eclipse:  
-1. Go to: Project -> Properties -> c/c++ Build -> Settings -> GCC C++ Compiler -> Dialect and change the language standard to ISO C++11.  
+
+1. Go to: Project -> Properties -> c/c++ Build -> Settings -> GCC C++ Compiler -> Dialect and change the language standard to ISO C++11.
 2. Project -> Properties -> c/c++ Build -> Settings -> GCC C++ Linker -> Libraries and
-click the "+" button(add) to add the following libraries
+click the "+" button(add) to add the following libraries:
   - SDL2
   - SDL2_image
   - SDL2_mixer
-3. Project -> Properties -> c/c++ Build  
-Make sure that "Generate makefile automaticly" is checked.
+3. Project -> Properties -> c/c++ Build Make sure that "Generate makefile automaticly" is checked.
 4. Start the game using the green start button.
 
 
