@@ -1,4 +1,12 @@
-*******************Player controls**********************
+# A project done for the course [TDP005](https://www.ida.liu.se/~TDP005/)
+Started 2014-11 and ended 2014-12
+Techniques used: C++, SDL2, Git
+IDE used: Eclipse
+
+## Twisc - The Wall is Coming
+
+
+#### Player controls
 A and D: Walk left or right
 W : Jump
 Space(while walking): Use the ability "Dash", kills enemies and bullets.
@@ -9,15 +17,15 @@ Up and Down arrow : Move in menu
 Enter : Execute selection in menu
 
 
-*******************Requirements***********************
+#### Requirements
 Make sure you have following installed on your system.
 -libsdl2-dev
 -libsdl2-image-dev
 -libsdl2-mixer
 
-*******************Installation***********************
+#### Installation
 1: Clone from git repository type in :
-git clone git@gitlab.ida.liu.se:eried975/twisc.git
+git clone git@github.com:thelloin/project_Twisc.git
 
 2: 
  To compile using make in terminal.
