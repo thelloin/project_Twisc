@@ -33,8 +33,8 @@ The game should now be compiled.
 
 To start the game using Eclipse:  
 1. Go to: Project -> Properties -> c/c++ Build -> Settings -> GCC C++ Compiler -> Dialect and change the language standard to ISO C++11.  
-2. Project -> Properties -> c/c++ Build -> Settings -> GCC C++ Linker -> Libraries   
-Click the "+" button(add) to add the following libraries
+2. Project -> Properties -> c/c++ Build -> Settings -> GCC C++ Linker -> Libraries and
+click the "+" button(add) to add the following libraries
 - SDL2
 - SDL2_image
 - SDL2_mixer
