@@ -7,7 +7,7 @@ IDE used: Eclipse
 
 
 #### Player controls
-A and D: Walk left or right 
+A and D: Walk left or right  
 W : Jump 
 Space(while walking): Use the ability "Dash", kills enemies and bullets. 
 	You die if you dash into walls, use it wisely. 
