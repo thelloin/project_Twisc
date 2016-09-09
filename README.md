@@ -1,7 +1,7 @@
 # A project done for the course [TDP005](https://www.ida.liu.se/~TDP005/)
-Started 2014-11 and ended 2014-12 
-Techniques used: C++, SDL2, Git 
-IDE used: Eclipse 
+Started 2014-11 and ended 2014-12  
+Techniques used: C++, SDL2, Git  
+IDE used: Eclipse  
  
 ## Twisc - The Wall is Coming
 
@@ -10,7 +10,7 @@ IDE used: Eclipse
 A and D: Walk left or right  
 W : Jump  
 Space(while walking): Use the ability "Dash", kills enemies and bullets.  
-	You die if you dash into walls, use it wisely. 
+	You die if you dash into walls, use it wisely.  
 P : Paus the game  
 ESC : Paus and open paus menu  
 Up and Down arrow : Move in menu  
@@ -31,8 +31,8 @@ To start the game from terminal:
 The game should now be compiled.  
 3. Start the game by typing: `./Twisc`
 
-To start the game using Eclipse:
-1. Go to: Project -> Properties -> c/c++ Build -> Settings -> GCC C++ Compiler -> Dialect   Change the language standard to ISO C++11.
+To start the game using Eclipse:  
+1. Go to: Project -> Properties -> c/c++ Build -> Settings -> GCC C++ Compiler -> Dialect and change the language standard to ISO C++11.  
 2. Project -> Properties -> c/c++ Build -> Settings -> GCC C++ Linker -> Libraries   
 Click the "+" button(add) to add the following libraries
 - SDL2
